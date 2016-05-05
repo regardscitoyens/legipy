@@ -4,11 +4,11 @@ from bs4 import BeautifulSoup
 import re
 from urlparse import urljoin, urlparse, parse_qs
 
-from ..common import cleanup_url, parse_date
-from ..models import PublishedLaw
+from ..common import cleanup_url
+from ..models import PendingLaw
 
 
-def parse_published_law_list(url, html):
+def parse_pending_law_list(url, html):
     soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
     results = []
 
@@ -21,26 +21,17 @@ def parse_published_law_list(url, html):
 
         for law_entry in ul.select('li a'):
             link_text = law_entry.get_text()
-            law_num = re.match(ur'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)',
-                               link_text, re.I)
-
-            if not law_num:
-                continue
+            nor_num = re.search('\(([A-Z0-9]+)\)$', link_text)
 
             legi_url = cleanup_url(urljoin(url, law_entry['href']))
             legi_qs = parse_qs(urlparse(legi_url).query)
 
-            title = law_entry.next_sibling
-            pub_date = re.match(ur'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
-                                title)
-
-            results.append(PublishedLaw(
+            results.append(PendingLaw(
                 year=year,
                 legislature=int(legi_qs['legislature'][0]),
-                number=law_num.group(2),
-                type=law_num.group(1),
-                pub_date=parse_date(pub_date.group(1)) if pub_date else None,
-                title=link_text + title,
+                type=legi_qs['typeLoi'][0],
+                title=link_text,
+                nor=nor_num.group(1) if nor_num else None,
                 legi_url=legi_url,
                 legi_id=legi_qs['idDocument'][0]
             ))
