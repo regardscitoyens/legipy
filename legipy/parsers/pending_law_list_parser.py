@@ -5,7 +5,7 @@ import re
 from urlparse import urljoin, urlparse, parse_qs
 
 from ..common import cleanup_url
-from ..models import PendingLaw
+from ..models import Law
 
 
 def parse_pending_law_list(url, html):
@@ -26,7 +26,7 @@ def parse_pending_law_list(url, html):
             legi_url = cleanup_url(urljoin(url, law_entry['href']))
             legi_qs = parse_qs(urlparse(legi_url).query)
 
-            results.append(PendingLaw(
+            results.append(Law(
                 year=year,
                 legislature=int(legi_qs['legislature'][0]),
                 type=legi_qs['typeLoi'][0],

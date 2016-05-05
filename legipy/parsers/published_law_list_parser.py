@@ -5,7 +5,7 @@ import re
 from urlparse import urljoin, urlparse, parse_qs
 
 from ..common import cleanup_url, parse_date
-from ..models import PublishedLaw
+from ..models import Law
 
 
 def parse_published_law_list(url, html):
@@ -34,11 +34,12 @@ def parse_published_law_list(url, html):
             pub_date = re.match(ur'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
                                 title)
 
-            results.append(PublishedLaw(
+            results.append(Law(
                 year=year,
                 legislature=int(legi_qs['legislature'][0]),
                 number=law_num.group(2),
-                type=law_num.group(1),
+                type='law',
+                kind=law_num.group(1),
                 pub_date=parse_date(pub_date.group(1)) if pub_date else None,
                 title=link_text + title,
                 legi_url=legi_url,
