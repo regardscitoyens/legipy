@@ -44,9 +44,12 @@ setup(
 
     install_requires=[
         'beautifulsoup4',
+        'click',
         'html5lib',
         'requests'
     ],
 
-    scripts=[],
+    scripts=[
+        'bin/legipy-cli.py'
+    ],
 )

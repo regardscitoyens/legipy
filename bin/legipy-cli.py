@@ -1,0 +1,57 @@
+# coding: utf-8
+
+import click
+import json
+import sys
+
+from legipy.services import LawService
+from legipy.common import LEG_CURRENT
+
+
+def _dump_law(obj):
+    if obj:
+        print json.dumps(obj.to_json(), sort_keys=True, indent=2)
+
+
+def _dump_laws(ary):
+    print json.dumps([i.to_json() for i in ary], sort_keys=True, indent=2)
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+def published_laws(legislature):
+    _dump_laws(LawService().published_laws(legislature))
+
+
+@cli.command()
+@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+def law_projects(legislature):
+    _dump_laws(LawService().pending_laws(legislature, True))
+
+
+@cli.command()
+@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+def law_proposals(legislature):
+    _dump_laws(LawService().pending_laws(legislature, False))
+
+
+@cli.command()
+@click.argument('legi_id')
+def law(legi_id):
+    service = LawService()
+    law = service.get_law(legi_id)
+
+    if not law:
+        sys.stderr.write('No such law: %s\n' % legi_id)
+        exit(1)
+
+    _dump_law(law)
+
+
+if __name__ == '__main__':
+    cli()
