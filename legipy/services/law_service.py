@@ -3,7 +3,8 @@
 import requests
 
 from ..common import servlet_url
-from ..parsers import parse_pending_law_list, parse_published_law_list
+from ..parsers import (parse_pending_law_list, parse_published_law_list,
+                       parse_law)
 
 
 class LawService:
@@ -26,3 +27,13 @@ class LawService:
             params={'legislature': legislature}
         )
         return parse_published_law_list(response.url, response.content)
+
+    def get_law(self, id_legi):
+        response = requests.get(
+            self.pub_url,
+            params={
+                'idDocument': id_legi,
+                'type': 'general'
+            }
+        )
+        return parse_law(response.url, response.content, id_legi)

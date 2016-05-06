@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 from urlparse import urljoin, urlparse, parse_qs
 
-from ..common import cleanup_url, parse_date
+from ..common import cleanup_url, merge_spaces, parse_date
 from ..models import Law
 
 
@@ -27,8 +27,8 @@ def parse_published_law_list(url, html):
             if not law_num:
                 continue
 
-            legi_url = cleanup_url(urljoin(url, law_entry['href']))
-            legi_qs = parse_qs(urlparse(legi_url).query)
+            url_legi = cleanup_url(urljoin(url, law_entry['href']))
+            qs_legi = parse_qs(urlparse(url_legi).query)
 
             title = law_entry.next_sibling
             pub_date = re.match(ur'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
@@ -36,14 +36,14 @@ def parse_published_law_list(url, html):
 
             results.append(Law(
                 year=year,
-                legislature=int(legi_qs['legislature'][0]),
+                legislature=int(qs_legi['legislature'][0]),
                 number=law_num.group(2),
                 type='law',
                 kind=law_num.group(1),
                 pub_date=parse_date(pub_date.group(1)) if pub_date else None,
-                title=link_text + title,
-                legi_url=legi_url,
-                legi_id=legi_qs['idDocument'][0]
+                title=merge_spaces(link_text + title),
+                url_legi=url_legi,
+                id_legi=qs_legi['idDocument'][0]
             ))
 
     return results

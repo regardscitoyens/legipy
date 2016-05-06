@@ -5,7 +5,7 @@ from datetime import date
 from legipy.services import LawService
 
 
-def test_published_laws():
+def test_list_published_laws():
     service = LawService()
     laws = service.published_laws(13)
 
@@ -16,15 +16,33 @@ def test_published_laws():
     assert laws[0].type == 'law'
     assert laws[0].kind is None
     assert laws[0].number == '2012-410'
-    assert laws[0].legi_url == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?idDocument=JORFDOLE000024106525&type=general&legislature=13'
-    assert laws[0].legi_id == 'JORFDOLE000024106525'
+    assert laws[0].url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?idDocument=JORFDOLE000024106525&type=general&legislature=13'
+    assert laws[0].id_legi == 'JORFDOLE000024106525'
     assert laws[0].pub_date == date(2012, 3, 27)
-    assert laws[0].title == u'LOI n° 2012-410 du 27 mars 2012  relative à la protection de l\'identité'
+    assert laws[0].title == u'LOI n° 2012-410 du 27 mars 2012 relative à la protection de l\'identité'
 
     assert laws[19].kind == 'organique'
 
 
-def test_pending_law_proposals():
+def test_published_law():
+    service = LawService()
+    law = service.get_law('JORFDOLE000024106525')
+
+    assert law.legislature == 13
+    assert law.type == 'law'
+    assert law.kind is None
+    assert law.number == '2012-410'
+    assert law.url_an == 'http://www.assemblee-nationale.fr/13/dossiers/protection_identite.asp'
+    assert law.id_an == 'protection_identite'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000024106525'
+    assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/ppl09-682.html'
+    assert law.id_senat == 'ppl09-682'
+    assert law.id_legi == 'JORFDOLE000024106525'
+    assert law.pub_date == date(2012, 3, 27)
+    assert law.title == u'LOI n° 2012-410 du 27 mars 2012 relative à la protection de l\'identité'
+
+
+def test_list_pending_law_proposals():
     service = LawService()
     laws = service.pending_laws(13, False)
 
@@ -33,12 +51,30 @@ def test_pending_law_proposals():
     assert laws[0].year == 2012
     assert laws[0].legislature == 13
     assert laws[0].type == 'prop'
-    assert laws[0].legi_url == 'https://www.legifrance.gouv.fr/affichLoiPreparation.do?idDocument=JORFDOLE000025450258&type=general&typeLoi=prop&legislature=13'
-    assert laws[0].legi_id == 'JORFDOLE000025450258'
+    assert laws[0].url_legi == 'https://www.legifrance.gouv.fr/affichLoiPreparation.do?idDocument=JORFDOLE000025450258&type=general&typeLoi=prop&legislature=13'
+    assert laws[0].id_legi == 'JORFDOLE000025450258'
     assert laws[0].title == u'Proposition de loi tendant à renforcer l\'effectivité de la peine complémentaire d\'interdiction du territoire français et visant à réprimer les délinquants réitérants'
 
 
-def test_pending_law_projects():
+def test_pending_law_proposal():
+    service = LawService()
+    law = service.get_law('JORFDOLE000025450258')
+
+    assert law.legislature == 13
+    assert law.type == 'prop'
+    assert law.kind is None
+    assert law.number is None
+    assert law.url_an == 'http://www.assemblee-nationale.fr/13/dossiers/interdiction_territoire_delinquants_reiterants.asp'
+    assert law.id_an == 'interdiction_territoire_delinquants_reiterants'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000025450258'
+    assert law.id_legi == 'JORFDOLE000025450258'
+    assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/ppl11-466.html'
+    assert law.id_senat == 'ppl11-466'
+    assert law.pub_date is None
+    assert law.title == u'Proposition de loi tendant à renforcer l\'effectivité de la peine complémentaire d\'interdiction du territoire français et visant à réprimer les délinquants réitérants'
+
+
+def test_list_pending_law_projects():
     service = LawService()
     laws = service.pending_laws(13, True)
 
@@ -48,8 +84,26 @@ def test_pending_law_projects():
     assert laws[0].legislature == 13
     assert laws[0].type == 'proj'
     assert laws[0].nor is None
-    assert laws[0].legi_url == 'https://www.legifrance.gouv.fr/affichLoiPreparation.do?idDocument=JORFDOLE000026052216&type=general&typeLoi=proj&legislature=13'
-    assert laws[0].legi_id == 'JORFDOLE000026052216'
+    assert laws[0].url_legi == 'https://www.legifrance.gouv.fr/affichLoiPreparation.do?idDocument=JORFDOLE000026052216&type=general&typeLoi=proj&legislature=13'
+    assert laws[0].id_legi == 'JORFDOLE000026052216'
     assert laws[0].title == u'Projet de loi ratifiant l’ordonnance n° 2011-1923 du 22 décembre 2011 relative à l\'évolution de la sécurité sociale à Mayotte dans le cadre de la départementalisation'
 
     assert laws[1].nor == 'DEVA1208027L'
+
+
+def test_pending_law_project():
+    service = LawService()
+    law = service.get_law('JORFDOLE000026052216')
+
+    assert law.legislature == 14
+    assert law.type == 'proj'
+    assert law.kind is None
+    assert law.number is None
+    assert law.url_an == 'http://www.assemblee-nationale.fr/14/dossiers/ratification_ordonnance_2011-1923.asp'
+    assert law.id_an == 'ratification_ordonnance_2011-1923'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000026052216'
+    assert law.id_legi == 'JORFDOLE000026052216'
+    assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/pjl11-607.html'
+    assert law.id_senat == 'pjl11-607'
+    assert law.pub_date is None
+    assert law.title == u'Projet de loi ratifiant l’ordonnance n° 2011-1923 du 22 décembre 2011 relative à l\'évolution de la sécurité sociale à Mayotte dans le cadre de la départementalisation'

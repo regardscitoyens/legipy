@@ -1,7 +1,20 @@
 # coding: utf-8
 
 from datetime import date
+import math
 import re
+
+LEG_SECONDS = 5 * 3600 * 24 * 365
+LEG_REF = 14
+LEG_REF_START = date(2012, 06, 01)
+
+
+def _current_legislature():
+    delta = date.today() - LEG_REF_START
+    return int(LEG_REF + math.floor(delta.total_seconds() / LEG_SECONDS))
+
+
+LEG_CURRENT = _current_legislature()
 
 DOMAIN = 'www.legifrance.gouv.fr'
 
@@ -20,6 +33,11 @@ MONTHS = [
     u'décembre'
 ]
 
+LAW_KINDS = [
+    'organique',
+    'constitutionnelle'
+]
+
 
 def servlet_url(servlet):
     return 'http://%s/%s.do' % (DOMAIN, servlet)
@@ -27,6 +45,10 @@ def servlet_url(servlet):
 
 def cleanup_url(url):
     return re.sub(r';jsessionid=[^\?]+\?', '?', url)
+
+
+def merge_spaces(string):
+    return re.sub('\s+', ' ', string)
 
 
 def parse_date(string):
