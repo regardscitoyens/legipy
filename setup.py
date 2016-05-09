@@ -22,9 +22,9 @@ setup(
     long_description=LONG_DESC,
     license="MIT",
 
-    url='https://github.com/njoyard/legipy',
-    author='Nicolas Joyard',
-    author_email='joyard.nicolas@gmail.com',
+    url='https://github.com/regardscitoyens/legipy',
+    author='Regards Citoyens',
+    author_email='contact@regardscitoyens.org',
 
     include_package_data=True,
 
