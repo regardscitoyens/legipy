@@ -2,7 +2,7 @@ legipy
 ======
 
 [![Build Status](https://travis-ci.org/regardscitoyens/legipy.svg?branch=master)](https://travis-ci.org/regardscitoyens/legipy)
-[![codecov.io](https://codecov.io/github/regardscitoyens/legipy/coverage.svg?branch=master)](https://codecov.io/github/regardscitoyens/legipy?branch=master)
+[![codecov](https://codecov.io/gh/regardscitoyens/legipy/branch/master/graph/badge.svg)](https://codecov.io/gh/regardscitoyens/legipy)
 
 Python client for the `legifrance.gouv.fr` website.
 

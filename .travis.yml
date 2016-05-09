@@ -4,7 +4,7 @@ python:
   - 2.7
 
 install:
-  - pip install codecov pytest pytest-cov flake8 pep8
+  - pip install pytest pytest-cov flake8 pep8
   - pip install -e .
 
 script:
@@ -13,4 +13,4 @@ script:
   - py.test
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
