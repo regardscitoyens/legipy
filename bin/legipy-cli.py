@@ -4,16 +4,20 @@ import click
 import json
 import sys
 
-from legipy.services import LawService
-from legipy.common import LEG_CURRENT
+from legipy.services import LawService, LegislatureService
 
 
-def _dump_law(obj):
+def current_legislature():
+    cur = [l for l in LegislatureService.legislatures() if l.end is None]
+    return cur[0].number
+
+
+def _dump_item(obj):
     if obj:
         print json.dumps(obj.to_json(), sort_keys=True, indent=2)
 
 
-def _dump_laws(ary):
+def _dump_items(ary):
     print json.dumps([i.to_json() for i in ary], sort_keys=True, indent=2)
 
 
@@ -23,21 +27,24 @@ def cli():
 
 
 @cli.command()
-@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+@click.option('--legislature', default=current_legislature(),
+              help='Legislature number')
 def published_laws(legislature):
-    _dump_laws(LawService().published_laws(legislature))
+    _dump_items(LawService().published_laws(legislature))
 
 
 @cli.command()
-@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+@click.option('--legislature', default=current_legislature(),
+              help='Legislature number')
 def law_projects(legislature):
-    _dump_laws(LawService().pending_laws(legislature, True))
+    _dump_items(LawService().pending_laws(legislature, True))
 
 
 @cli.command()
-@click.option('--legislature', default=LEG_CURRENT, help='Legislature number')
+@click.option('--legislature', default=current_legislature(),
+              help='Legislature number')
 def law_proposals(legislature):
-    _dump_laws(LawService().pending_laws(legislature, False))
+    _dump_items(LawService().pending_laws(legislature, False))
 
 
 @cli.command()
@@ -50,7 +57,12 @@ def law(legi_id):
         sys.stderr.write('No such law: %s\n' % legi_id)
         exit(1)
 
-    _dump_law(law)
+    _dump_item(law)
+
+
+@cli.command()
+def legislatures():
+    _dump_items(LegislatureService().legislatures())
 
 
 if __name__ == '__main__':

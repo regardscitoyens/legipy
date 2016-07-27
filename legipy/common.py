@@ -1,20 +1,8 @@
 # coding: utf-8
 
 from datetime import date
-import math
 import re
 
-LEG_SECONDS = 5 * 3600 * 24 * 365
-LEG_REF = 14
-LEG_REF_START = date(2012, 06, 01)
-
-
-def _current_legislature():
-    delta = date.today() - LEG_REF_START
-    return int(LEG_REF + math.floor(delta.total_seconds() / LEG_SECONDS))
-
-
-LEG_CURRENT = _current_legislature()
 
 DOMAIN = 'www.legifrance.gouv.fr'
 
@@ -38,9 +26,23 @@ LAW_KINDS = [
     'constitutionnelle'
 ]
 
+ROMAN_VALUES = {
+    'M': 1000,
+    'D': 500,
+    'C': 100,
+    'L': 50,
+    'X': 10,
+    'V': 5,
+    'I': 1
+}
+
 
 def servlet_url(servlet):
     return 'http://%s/%s.do' % (DOMAIN, servlet)
+
+
+def page_url(page):
+    return 'http://%s/%s.jsp' % (DOMAIN, page)
 
 
 def cleanup_url(url):
@@ -63,3 +65,21 @@ def parse_date(string):
         return None
 
     return date(int(match.group(3)), month, int(match.group(1)))
+
+
+def parse_roman(string):
+    string = string.upper()
+    total = 0
+
+    for c in string:
+        if c not in ROMAN_VALUES:
+            raise ValueError("Not a roman numeral: %s" % string)
+
+    for index in range(len(string)):
+        value = ROMAN_VALUES[string[index]]
+        if index < len(string) - 1 and ROMAN_VALUES[string[index+1]] > value:
+            total -= value
+        else:
+            total += value
+
+    return total

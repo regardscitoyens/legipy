@@ -11,17 +11,21 @@ CLI usage
 
 The command-line script `legipy-cli.py` gives access to service commands from the command line and outputs data in JSON format.
 
+### List legislatures
+
+`legipy-cli.py legislatures`
+
 ### List published laws
 
-`legipy-cli.py published_laws [--legislature=14]`
+`legipy-cli.py published_laws [--legislature=CURRENT]`
 
 ### List pending law projects
 
-`legipy-cli.py law_projects [--legislature=14]`
+`legipy-cli.py law_projects [--legislature=CURRENT]`
 
 ### List pending law proposals
 
-`legipy-cli.py law_proposals [--legislature=14]`
+`legipy-cli.py law_proposals [--legislature=CURRENT]`
 
 ### Show specific law
 
