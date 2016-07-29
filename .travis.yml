@@ -5,6 +5,7 @@ python:
 
 install:
   - pip install pytest pytest-cov flake8 pep8
+  - pip install -U setuptools>=18.5
   - pip install -e .
 
 script:
