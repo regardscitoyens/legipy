@@ -46,7 +46,8 @@ setup(
         'beautifulsoup4',
         'click',
         'html5lib',
-        'requests'
+        'requests',
+        'urllib3[secure]'
     ],
 
     scripts=[
