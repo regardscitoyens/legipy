@@ -15,13 +15,13 @@ def parse_law(url, html, id_legi):
     )
 
     clean_title = merge_spaces(soup.h2.get_text()).strip()
-    law.title = re.sub(ur'^Dossiers législatifs (- )?', '', clean_title)
+    law.title = re.sub(r'^Dossiers législatifs (- )?', '', clean_title)
 
     if len(law.title) == 0:
         return None
 
     title_remain = None
-    law_num = re.match(ur'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)(.*)', law.title,
+    law_num = re.match(r'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)(.*)', law.title,
                        re.I)
     if law_num:
         law.type = 'law'
@@ -41,7 +41,7 @@ def parse_law(url, html, id_legi):
             law.kind = None
 
     if title_remain:
-        pub_date = re.match(ur'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
+        pub_date = re.match(r'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
                             title_remain)
 
         if pub_date:
@@ -49,7 +49,7 @@ def parse_law(url, html, id_legi):
 
     dos_senat = soup.find(lambda e: e.name == 'a' and
                           re.search(r'/dossier-legislatif/', e['href']))
-    print dos_senat['href']
+    print(dos_senat['href'])
     if dos_senat:
         law.url_senat = dos_senat['href']
         law.id_senat = re.search(r'([^/]+)\.html$', law.url_senat).group(1)

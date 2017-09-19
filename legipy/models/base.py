@@ -7,7 +7,7 @@ class LegipyModel:
     def to_json(self):
         d = dict()
 
-        for k, v in self.__dict__.iteritems():
+        for k, v in self.__dict__.items():
             if v is not None:
                 if isinstance(v, date):
                     d[k] = v.isoformat()

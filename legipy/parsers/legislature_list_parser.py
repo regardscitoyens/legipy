@@ -15,13 +15,13 @@ def parse_legislature_list(url, html):
         text = leg_header.get_text()
         num = parse_roman(re.search('^[MDCLXVI]+', text).group(0))
 
-        m = re.search(ur'A compter du (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})', text)
+        m = re.search(r'A compter du (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})', text)
         if m:
             start = parse_date(m.group(1))
             end = None
 
-        m = re.search(ur'du (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4}) '
-                      ur'au (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})', text)
+        m = re.search(r'du (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4}) '
+                      r'au (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})', text)
         if m:
             start = parse_date(m.group(1))
             end = parse_date(m.group(2))

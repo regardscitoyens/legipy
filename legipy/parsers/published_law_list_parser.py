@@ -2,7 +2,7 @@
 
 from bs4 import BeautifulSoup
 import re
-from urlparse import urljoin, urlparse, parse_qs
+from urllib.parse import urljoin, urlparse, parse_qs
 
 from ..common import cleanup_url, merge_spaces, parse_date
 from ..models import Law
@@ -21,7 +21,7 @@ def parse_published_law_list(url, html):
 
         for law_entry in ul.select('li a'):
             link_text = law_entry.get_text()
-            law_num = re.match(ur'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)',
+            law_num = re.match(r'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)',
                                link_text, re.I)
 
             if not law_num:
@@ -31,7 +31,7 @@ def parse_published_law_list(url, html):
             qs_legi = parse_qs(urlparse(url_legi).query)
 
             title = law_entry.next_sibling
-            pub_date = re.match(ur'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
+            pub_date = re.match(r'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
                                 title)
 
             results.append(Law(

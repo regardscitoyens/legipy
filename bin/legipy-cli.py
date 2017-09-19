@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 # coding: utf-8
+from __future__ import print_function
 
 import click
 import json
@@ -14,11 +16,11 @@ def current_legislature():
 
 def _dump_item(obj):
     if obj:
-        print json.dumps(obj.to_json(), sort_keys=True, indent=2)
+        print(json.dumps(obj.to_json(), sort_keys=True, indent=2))
 
 
 def _dump_items(ary):
-    print json.dumps([i.to_json() for i in ary], sort_keys=True, indent=2)
+    print(json.dumps([i.to_json() for i in ary], sort_keys=True, indent=2))
 
 
 @click.group()

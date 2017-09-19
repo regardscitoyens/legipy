@@ -12,7 +12,7 @@ with open(os.path.join(here, 'legipy', 'version.py')) as version:
 assert __version__ is not None
 
 with open(os.path.join(here, 'README.md')) as readme:
-    LONG_DESC = readme.read().decode('utf-8')
+    LONG_DESC = readme.read()
 
 setup(
     name='legipy',
@@ -32,7 +32,6 @@ setup(
         'Development Status :: 1 - Planning',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
 
