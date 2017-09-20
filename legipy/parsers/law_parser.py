@@ -15,7 +15,7 @@ def parse_law(url, html, id_legi):
     )
 
     clean_title = merge_spaces(soup.h2.get_text()).strip()
-    law.title = re.sub(r'^Dossiers législatifs (- )?', '', clean_title)
+    law.title = re.sub(r'^Dossiers législatifs( - )?', '', clean_title).strip()
 
     if len(law.title) == 0:
         return None
