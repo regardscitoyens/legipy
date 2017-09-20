@@ -47,9 +47,9 @@ def parse_law(url, html, id_legi):
         if pub_date:
             law.pub_date = parse_date(pub_date.group(1))
 
-    dos_senat = soup.find(lambda e: e.name == 'a' and
-                          (re.search(r'/dossier-legislatif/', e['href'])
-                            or re.search(r'/dossierleg/', e['href'])))
+    dos_senat = soup.find(lambda e: e.name == 'a' and (
+                    re.search(r'/dossier-legislatif/', e['href']) or
+                    re.search(r'/dossierleg/', e['href'])))
     print(dos_senat['href'])
     if dos_senat:
         law.url_senat = dos_senat['href']
