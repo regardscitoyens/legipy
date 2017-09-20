@@ -2,9 +2,14 @@
 
 from datetime import date
 
+import vcr
+
 from legipy.services import LawService
 
 
+recorder = vcr.VCR(cassette_library_dir='tests/fixtures/cassettes')
+
+@recorder.use_cassette()
 def test_list_published_laws():
     service = LawService()
     laws = service.published_laws(13)
@@ -24,6 +29,7 @@ def test_list_published_laws():
     assert laws[19].kind == 'organique'
 
 
+@recorder.use_cassette()
 def test_published_law():
     service = LawService()
     law = service.get_law('JORFDOLE000024106525')
@@ -34,7 +40,7 @@ def test_published_law():
     assert law.number == '2012-410'
     assert law.url_an == 'http://www.assemblee-nationale.fr/13/dossiers/protection_identite.asp'
     assert law.id_an == 'protection_identite'
-    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000024106525'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?idDocument=JORFDOLE000024106525&type=general'
     assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/ppl09-682.html'
     assert law.id_senat == 'ppl09-682'
     assert law.id_legi == 'JORFDOLE000024106525'
@@ -42,6 +48,7 @@ def test_published_law():
     assert law.title == u'LOI n° 2012-410 du 27 mars 2012 relative à la protection de l\'identité'
 
 
+@recorder.use_cassette()
 def test_list_pending_law_proposals():
     service = LawService()
     laws = service.pending_laws(13, False)
@@ -56,6 +63,7 @@ def test_list_pending_law_proposals():
     assert laws[0].title == u'Proposition de loi tendant à renforcer l\'effectivité de la peine complémentaire d\'interdiction du territoire français et visant à réprimer les délinquants réitérants'
 
 
+@recorder.use_cassette()
 def test_pending_law_proposal():
     service = LawService()
     law = service.get_law('JORFDOLE000025450258')
@@ -66,7 +74,7 @@ def test_pending_law_proposal():
     assert law.number is None
     assert law.url_an == 'http://www.assemblee-nationale.fr/13/dossiers/interdiction_territoire_delinquants_reiterants.asp'
     assert law.id_an == 'interdiction_territoire_delinquants_reiterants'
-    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000025450258'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?idDocument=JORFDOLE000025450258&type=general'
     assert law.id_legi == 'JORFDOLE000025450258'
     assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/ppl11-466.html'
     assert law.id_senat == 'ppl11-466'
@@ -74,6 +82,7 @@ def test_pending_law_proposal():
     assert law.title == u'Proposition de loi tendant à renforcer l\'effectivité de la peine complémentaire d\'interdiction du territoire français et visant à réprimer les délinquants réitérants'
 
 
+@recorder.use_cassette()
 def test_list_pending_law_projects():
     service = LawService()
     laws = service.pending_laws(13, True)
@@ -91,6 +100,7 @@ def test_list_pending_law_projects():
     assert laws[1].nor == 'DEVA1208027L'
 
 
+@recorder.use_cassette()
 def test_pending_law_project():
     service = LawService()
     law = service.get_law('JORFDOLE000026052216')
@@ -101,7 +111,7 @@ def test_pending_law_project():
     assert law.number is None
     assert law.url_an == 'http://www.assemblee-nationale.fr/14/dossiers/ratification_ordonnance_2011-1923.asp'
     assert law.id_an == 'ratification_ordonnance_2011-1923'
-    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?type=general&idDocument=JORFDOLE000026052216'
+    assert law.url_legi == 'https://www.legifrance.gouv.fr/affichLoiPubliee.do?idDocument=JORFDOLE000026052216&type=general'
     assert law.id_legi == 'JORFDOLE000026052216'
     assert law.url_senat == 'http://www.senat.fr/dossier-legislatif/pjl11-607.html'
     assert law.id_senat == 'pjl11-607'
