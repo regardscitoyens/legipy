@@ -58,7 +58,7 @@ def parse_law(url, html, id_legi):
                        re.search(r'/dossiers/', e['href']))
 
     if dos_an:
-        law.url_an = dos_an['href']
+        law.url_an = dos_an['href'].split('#')[0]
         law.legislature = int(re.search(r'/(\d+)/dossiers/',
                               law.url_an).group(1))
         law.id_an = re.search(r'([^/]+)\.asp$', law.url_an).group(1)
