@@ -3,7 +3,7 @@
 from datetime import date
 
 
-class LegipyModel:
+class LegipyModel(object):
     def to_json(self):
         d = dict()
 

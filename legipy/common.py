@@ -1,23 +1,22 @@
 # coding: utf-8
 
-from datetime import date
 import re
-
+import datetime
 
 DOMAIN = 'www.legifrance.gouv.fr'
 
 MONTHS = [
-    'janvier',
+    u'janvier',
     u'février',
-    'mars',
-    'avril',
-    'mai',
-    'juin',
-    'juillet',
+    u'mars',
+    u'avril',
+    u'mai',
+    u'juin',
+    u'juillet',
     u'août',
-    'septembre',
-    'octobre',
-    'novembre',
+    u'septembre',
+    u'octobre',
+    u'novembre',
     u'décembre'
 ]
 
@@ -64,7 +63,7 @@ def parse_date(string):
     except ValueError:
         return None
 
-    return date(int(match.group(3)), month, int(match.group(1)))
+    return datetime.date(int(match.group(3)), month, int(match.group(1)))
 
 
 def parse_roman(string):
@@ -77,7 +76,7 @@ def parse_roman(string):
 
     for index in range(len(string)):
         value = ROMAN_VALUES[string[index]]
-        if index < len(string) - 1 and ROMAN_VALUES[string[index+1]] > value:
+        if index < len(string) - 1 and ROMAN_VALUES[string[index + 1]] > value:
             total -= value
         else:
             total += value
