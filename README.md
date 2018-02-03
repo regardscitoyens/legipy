@@ -9,24 +9,24 @@ Python client for the `legifrance.gouv.fr` website.
 CLI usage
 ---------
 
-The command-line script `legipy-cli.py` gives access to service commands from the command line and outputs data in JSON format.
+The command-line script `legipy` gives access to service commands from the command line and outputs data in JSON format.
 
 ### List legislatures
 
-`legipy-cli.py legislatures`
+`legipy legislatures`
 
 ### List published laws
 
-`legipy-cli.py published_laws [--legislature=CURRENT]`
+`legipy published_laws [--legislature=CURRENT]`
 
 ### List pending law projects
 
-`legipy-cli.py law_projects [--legislature=CURRENT]`
+`legipy law_projects [--legislature=CURRENT]`
 
 ### List pending law proposals
 
-`legipy-cli.py law_proposals [--legislature=CURRENT]`
+`legipy law_proposals [--legislature=CURRENT]`
 
 ### Show specific law
 
-`legipy-cli.py law JORFDOLE000024106525`
+`legipy law JORFDOLE000024106525`
