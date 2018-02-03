@@ -7,7 +7,7 @@ from ..parsers import (parse_pending_law_list, parse_published_law_list,
                        parse_law)
 
 
-class LawService:
+class LawService(object):
     pub_url = servlet_url('affichLoiPubliee')
     pend_url = servlet_url('affichLoiPreparation')
 
