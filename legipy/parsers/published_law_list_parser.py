@@ -1,10 +1,10 @@
 # coding: utf-8
+from __future__ import unicode_literals
 
 import re
 
-from six.moves.urllib.parse import urljoin, urlparse, parse_qs
-
 from bs4 import BeautifulSoup
+from six.moves.urllib.parse import urljoin, urlparse, parse_qs
 
 from ..common import cleanup_url, merge_spaces, parse_date
 from ..models import Law
