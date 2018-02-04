@@ -8,6 +8,7 @@ import sys
 import click
 
 from legipy.services import LawService, LegislatureService
+from legipy.services.code_service import CodeService
 
 
 def current_legislature():
@@ -66,6 +67,20 @@ def law(legi_id):
 @cli.command(short_help="List legislatures")
 def legislatures():
     _dump_items(LegislatureService().legislatures())
+
+
+@cli.command(short_help="Recherche simple dans les codes en vigueur")
+def codes():
+    _dump_items(CodeService().codes())
+
+
+@cli.command(short_help="Détail d'un code")
+@click.argument('id-code')
+@click.option('--date-pub', help=u"Publication date (ISO format), default to today")
+def code(id_code, date_pub):
+    if date_pub:
+        date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
+    _dump_item(CodeService().code(id_code, date_pub))
 
 
 if __name__ == '__main__':
