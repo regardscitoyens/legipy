@@ -2,9 +2,10 @@
 # coding: utf-8
 from __future__ import print_function
 
-import click
 import json
 import sys
+
+import click
 
 from legipy.services import LawService, LegislatureService
 
@@ -24,32 +25,32 @@ def _dump_items(ary):
 
 
 @click.group()
-def cli():
+def cli(short_help="Client for the `legifrance.gouv.fr` website."):
     pass
 
 
-@cli.command()
+@cli.command(short_help="List published laws")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def published_laws(legislature):
     _dump_items(LawService().published_laws(legislature))
 
 
-@cli.command()
+@cli.command(short_help="List pending law projects")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def law_projects(legislature):
     _dump_items(LawService().pending_laws(legislature, True))
 
 
-@cli.command()
+@cli.command(short_help="List pending law proposals")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def law_proposals(legislature):
     _dump_items(LawService().pending_laws(legislature, False))
 
 
-@cli.command()
+@cli.command(short_help="Show specific law")
 @click.argument('legi_id')
 def law(legi_id):
     service = LawService()
@@ -62,7 +63,7 @@ def law(legi_id):
     _dump_item(law)
 
 
-@cli.command()
+@cli.command(short_help="List legislatures")
 def legislatures():
     _dump_items(LegislatureService().legislatures())
 
