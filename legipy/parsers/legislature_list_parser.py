@@ -20,6 +20,9 @@ def parse_legislature_list(url, html):
         if m:
             start = parse_date(m.group(1))
             end = None
+        else:
+            start = None
+            end = None
 
         m = re.search(r'du (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4}) '
                       r'au (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})', text)

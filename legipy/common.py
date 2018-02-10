@@ -45,7 +45,7 @@ def page_url(page):
 
 
 def cleanup_url(url):
-    return re.sub(r';jsessionid=[^\?]+\?', '?', url)
+    return re.sub(r';jsessionid=[^?]+\?', '?', url)
 
 
 def merge_spaces(string):
@@ -60,7 +60,8 @@ def parse_date(string):
 
     try:
         month = 1 + MONTHS.index(match.group(2))
-    except:
+    except ValueError:
+        # not in list
         return None
 
     return datetime.date(int(match.group(3)), month, int(match.group(1)))
