@@ -25,33 +25,33 @@ def _dump_items(ary):
     print(json.dumps([i.to_json() for i in ary], sort_keys=True, indent=2))
 
 
-@click.group()
-def cli(short_help="Client for the `legifrance.gouv.fr` website."):
+@click.group(short_help=u"Client for the `legifrance.gouv.fr` website.")
+def cli():
     pass
 
 
-@cli.command(short_help="List published laws")
+@cli.command(short_help=u"List published laws")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def published_laws(legislature):
     _dump_items(LawService().published_laws(legislature))
 
 
-@cli.command(short_help="List pending law projects")
+@cli.command(short_help=u"List pending law projects")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def law_projects(legislature):
     _dump_items(LawService().pending_laws(legislature, True))
 
 
-@cli.command(short_help="List pending law proposals")
+@cli.command(short_help=u"List pending law proposals")
 @click.option('--legislature', default=current_legislature(),
               help='Legislature number')
 def law_proposals(legislature):
     _dump_items(LawService().pending_laws(legislature, False))
 
 
-@cli.command(short_help="Show specific law")
+@cli.command(short_help=u"Show specific law")
 @click.argument('legi_id')
 def law(legi_id):
     service = LawService()
@@ -64,17 +64,17 @@ def law(legi_id):
     _dump_item(law)
 
 
-@cli.command(short_help="List legislatures")
+@cli.command(short_help=u"List legislatures")
 def legislatures():
     _dump_items(LegislatureService().legislatures())
 
 
-@cli.command(short_help="Recherche simple dans les codes en vigueur")
+@cli.command(short_help=u"List applicable codes")
 def codes():
     _dump_items(CodeService().codes())
 
 
-@cli.command(short_help="Détail d'un code")
+@cli.command(short_help=u"Show code detail")
 @click.argument('id-code')
 @click.option('--date-pub', help=u"Publication date (ISO format), default to today")
 def code(id_code, date_pub):
