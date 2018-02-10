@@ -1,11 +1,15 @@
 language: python
 
 python:
+  - 2.7
+  - 3.4
   - 3.5
+  - 3.6
+  - 3.7-dev
 
 install:
-  - pip install pytest pytest-cov flake8 pep8 vcrpy
   - pip install -U setuptools>=18.5
+  - pip install pytest pytest-cov flake8 pep8 vcrpy
   - pip install -e .
 
 script:

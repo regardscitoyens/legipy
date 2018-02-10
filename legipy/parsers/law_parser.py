@@ -1,4 +1,5 @@
 # coding: utf-8
+from __future__ import unicode_literals
 
 from bs4 import BeautifulSoup
 import re
@@ -37,7 +38,8 @@ def parse_law(url, html, id_legi):
         try:
             LAW_KINDS.index(prop.group(2))
             law.kind = prop.group(2)
-        except:
+        except ValueError:
+            # not in list
             law.kind = None
 
     if title_remain:
@@ -48,8 +50,8 @@ def parse_law(url, html, id_legi):
             law.pub_date = parse_date(pub_date.group(1))
 
     dos_senat = soup.find(lambda e: e.name == 'a' and (
-                    re.search(r'/dossier-legislatif/', e['href']) or
-                    re.search(r'/dossierleg/', e['href'])))
+            re.search(r'/dossier-legislatif/', e['href']) or
+            re.search(r'/dossierleg/', e['href'])))
     if dos_senat:
         law.url_senat = dos_senat['href'].split('#')[0]
         law.id_senat = re.search(r'([^/]+)\.html$', law.url_senat).group(1)
@@ -60,7 +62,7 @@ def parse_law(url, html, id_legi):
     if dos_an:
         law.url_an = dos_an['href'].split('#')[0]
         law.legislature = int(re.search(r'/(\d+)/dossiers/',
-                              law.url_an).group(1))
+                                        law.url_an).group(1))
         law.id_an = re.search(r'([^/]+)\.asp$', law.url_an).group(1)
 
     return law
