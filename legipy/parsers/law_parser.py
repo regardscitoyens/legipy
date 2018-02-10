@@ -42,7 +42,8 @@ def parse_law(url, html, id_legi):
         try:
             LAW_KINDS.index(prop.group(2))
             law.kind = prop.group(2)
-        except:
+        except ValueError:
+            # not in list
             law.kind = None
 
     if title_remain:
@@ -60,7 +61,7 @@ def parse_law(url, html, id_legi):
         law.id_senat = re.search(r'([^/]+)\.html$', law.url_senat).group(1)
 
     dos_an = soup.find(lambda e: e.name == 'a' and
-                                 re.search(r'/dossiers/', e['href']))
+                       re.search(r'/dossiers/', e['href']))
 
     if dos_an:
         law.url_an = dos_an['href'].split('#')[0]
