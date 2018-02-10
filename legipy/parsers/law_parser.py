@@ -1,11 +1,15 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-from bs4 import BeautifulSoup
 import re
 
-from ..common import cleanup_url, merge_spaces, LAW_KINDS, parse_date
-from ..models import Law
+from bs4 import BeautifulSoup
+
+from legipy.common import LAW_KINDS
+from legipy.common import cleanup_url
+from legipy.common import merge_spaces
+from legipy.common import parse_date
+from legipy.models.law import Law
 
 
 def parse_law(url, html, id_legi):

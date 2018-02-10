@@ -10,4 +10,20 @@ class Code(LegipyModel):
         self.subtitle = subtitle
         self.date_pub = date_pub
         self.url_code = url_code
-        self.children = []
+        self.children = None
+
+
+class Section(LegipyModel):
+    def __init__(self, id_section, title, content=None, articles=None, url_section=None, children=None):
+        self.id_section = id_section
+        self.title = title
+        self.content = content
+        self.articles = articles
+        self.url_section = url_section
+        self.children = children
+
+
+class Article(LegipyModel):
+    def __init__(self, title, history):
+        self.title = title
+        self.history = history

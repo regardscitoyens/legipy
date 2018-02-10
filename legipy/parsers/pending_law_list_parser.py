@@ -1,13 +1,17 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-from bs4 import BeautifulSoup
 import re
 
-from six.moves.urllib.parse import urljoin, urlparse, parse_qs
+from bs4 import BeautifulSoup
 
-from ..common import cleanup_url, merge_spaces
-from ..models import Law
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urljoin
+from six.moves.urllib.parse import urlparse
+
+from legipy.common import cleanup_url
+from legipy.common import merge_spaces
+from legipy.models.law import Law
 
 
 def parse_pending_law_list(url, html):

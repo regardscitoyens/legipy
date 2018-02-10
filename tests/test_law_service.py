@@ -4,7 +4,7 @@ from datetime import date
 
 import vcr
 
-from legipy.services import LawService
+from legipy.services.law_service import LawService
 
 
 recorder = vcr.VCR(cassette_library_dir='tests/fixtures/cassettes')

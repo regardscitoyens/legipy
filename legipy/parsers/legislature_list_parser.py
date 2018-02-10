@@ -1,11 +1,13 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
-from bs4 import BeautifulSoup
 import re
 
-from ..common import parse_date, parse_roman
-from ..models import Legislature
+from bs4 import BeautifulSoup
+
+from legipy.common import parse_date
+from legipy.common import parse_roman
+from legipy.models.legislature import Legislature
 
 
 def parse_legislature_list(url, html):
