@@ -1,7 +1,7 @@
 # coding: utf-8
 
-import re
 import datetime
+import re
 
 DOMAIN = 'www.legifrance.gouv.fr'
 
