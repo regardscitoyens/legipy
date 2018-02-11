@@ -50,5 +50,4 @@ class SectionService(object):
                 'idSectionTA': id_section
             }
         )
-        print("Parsing {0}...".format(response.url))
         return parser_articles(response.content)
