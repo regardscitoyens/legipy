@@ -1,0 +1,166 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: http://www.legifrance.gouv.fr/initRechCodeArticle.do
+  response:
+    body: {string: !!python/unicode "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\
+        \n<body bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\
+        \n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"}
+    headers:
+      connection: [keep-alive]
+      content-length: ['178']
+      content-type: [text/html]
+      date: ['Sun, 11 Feb 2018 20:20:08 GMT']
+      location: ['https://www.legifrance.gouv.fr/initRechCodeArticle.do']
+      server: [nginx]
+      set-cookie: ['visid_incap_1235873=BAfdv/jhR4a5domEqAxx/nelgFoAAAAAQUIPAAAAAACOrgaxzF7sJ4BeOVHI74ZF;
+          expires=Mon, 11 Feb 2019 09:20:35 GMT; path=/; Domain=.legifrance.gouv.fr',
+        nlbi_1235873=rXxlO19S+F6L610KdlqIiwAAAABLP6QxKIn27efK5i2wXkbU; path=/; Domain=.legifrance.gouv.fr,
+        incap_ses_151_1235873=8Gm6Wee0GxPyBmL8t3YYAnilgFoAAAAAFayzFQrHV4M3DpRmcG9Mvg==;
+          path=/; Domain=.legifrance.gouv.fr, ___utmvmzFuZDyIB=bWXOTbJAqZo; path=/;
+          Max-Age=900, "___utmvazFuZDyIB=YVc\x01PpMK; path=/; Max-Age=900", "___utmvbzFuZDyIB=XZs\n\
+          \ XFMOpalj: FtY; path=/; Max-Age=900"]
+      x-cdn: [Incapsula]
+      x-iinfo: [5-61410033-61410036 NNNN CT(20 -1 0) RT(1518380407955 2) q(0 0 0 1)
+          r(1 1) U5]
+    status: {code: 301, message: Moved Permanently}
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Cookie: ["incap_ses_151_1235873=8Gm6Wee0GxPyBmL8t3YYAnilgFoAAAAAFayzFQrHV4M3DpRmcG9Mvg==;\
+          \ visid_incap_1235873=BAfdv/jhR4a5domEqAxx/nelgFoAAAAAQUIPAAAAAACOrgaxzF7sJ4BeOVHI74ZF;\
+          \ nlbi_1235873=rXxlO19S+F6L610KdlqIiwAAAABLP6QxKIn27efK5i2wXkbU; ___utmvazFuZDyIB=YVc\x01\
+          PpMK; ___utmvmzFuZDyIB=bWXOTbJAqZo; ___utmvbzFuZDyIB=XZs\n XFMOpalj: FtY"]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://www.legifrance.gouv.fr/initRechCodeArticle.do
+  response:
+    body:
+      string: !!binary |
+        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
+        M2OCAAA=
+    headers:
+      cache-control: ['no-cache,no-store,max-age=0']
+      connection: [keep-alive]
+      content-encoding: [gzip]
+      content-type: [text/html;charset=UTF-8]
+      date: ['Sun, 11 Feb 2018 20:20:08 GMT']
+      expires: ['Thu, 01 Jan 1970 00:00:00 GMT']
+      pragma: [No-cache]
+      server: [nginx]
+      set-cookie: [JSESSIONID=E0CE6AB46807D5C9534FD81A246C3D50.tplgfr32s_2; Path=/,
+        'visid_incap_1235873=BAfdv/jhR4a5domEqAxx/nelgFoAAAAAQUIPAAAAAACOrgaxzF7sJ4BeOVHI74ZF;
+          expires=Mon, 11 Feb 2019 09:20:35 GMT; path=/; Domain=.legifrance.gouv.fr',
+        incap_ses_151_1235873=8Gm6Wee0GxPyBmL8t3YYAnilgFoAAAAAFayzFQrHV4M3DpRmcG9Mvg==;
+          path=/; Domain=.legifrance.gouv.fr, '___utmvbzFuZDyIB=a; Max-Age=0; path=/;
+          expires=Tue, 06 Feb 2018 09:17:52 GMT', '___utmvmzFuZDyIB=a; Max-Age=0;
+          path=/; expires=Tue, 06 Feb 2018 09:17:52 GMT', '___utmvazFuZDyIB=a; Max-Age=0;
+          path=/; expires=Tue, 06 Feb 2018 09:17:52 GMT']
+      x-cdn: [Incapsula]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-iinfo: [4-53960154-53954670 PNNN RT(1518380408196 406) q(0 0 0 -1) r(0 0)
+          U5]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
