@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from six.moves.urllib.parse import urljoin
 
 from legipy.common import cleanup_url
+from legipy.common import parse_date
 from legipy.models.code import Article
 from legipy.models.code import Code
 from legipy.models.code import Section
@@ -77,7 +78,12 @@ class CodeParser(object):
                                        attrs={'class': 'sousTitreTexte'})
         if span_subtitle:
             code.title = div_title.text.replace(span_subtitle.text, '')
-        code.subtitle = span_subtitle.text.strip()
+            code.subtitle = span_subtitle.text.strip()
+            regex = r'Version consolidée au (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})'
+            m = re.search(regex, code.subtitle)
+            if m:
+                code.date_pub = parse_date(m.group(1))
+
         code.title = code.title.strip()
 
         # -- TOC
