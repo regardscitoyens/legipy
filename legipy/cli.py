@@ -38,7 +38,14 @@ def _dump_item(obj, error=None):
 
 
 def _dump_items(ary):
-    print(json.dumps([i for i in ary], sort_keys=True, indent=2, default=json_serial))
+    print(
+        json.dumps(
+            [i for i in ary],
+            sort_keys=True,
+            indent=2,
+            default=json_serial
+        )
+    )
 
 
 @click.group(short_help=u"Client for the `legifrance.gouv.fr` website.")
@@ -75,7 +82,10 @@ def common_laws():
 @cli.command(short_help=u"Show specific law")
 @click.argument('legi_id')
 def law(legi_id):
-    _dump_item(LawService().get_law(legi_id), error='No such law: %s' % legi_id)
+    _dump_item(
+        LawService().get_law(legi_id),
+        error='No such law: %s' % legi_id
+    )
 
 
 @cli.command(short_help=u"List legislatures")
@@ -90,18 +100,24 @@ def codes():
 
 @cli.command(short_help=u"Show code details")
 @click.argument('id-code')
-@click.option('--date-pub', help=u"Publication date (ISO format), default to today")
-@click.option('--with-articles/--without-articles', default=False, help=u"Show details for each articles")
+@click.option('--date-pub',
+              help=u"Publication date (ISO format), default to today")
+@click.option('--with-articles/--without-articles', default=False,
+              help=u"Show details for each articles")
 def code(id_code, date_pub, with_articles):
     if date_pub:
         date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
-    _dump_item(CodeService().code(id_code, date_pub, with_articles), error='No such code: %s' % id_code)
+    _dump_item(
+        CodeService().code(id_code, date_pub, with_articles),
+        error='No such code: %s' % id_code
+    )
 
 
 @cli.command(short_help=u"Show code section detail")
 @click.argument('id-code')
 @click.argument('id-section')
-@click.option('--date-pub', help=u"Publication date (ISO format), default to today")
+@click.option('--date-pub',
+              help=u"Publication date (ISO format), default to today")
 def code_section(id_code, id_section, date_pub):
     if date_pub:
         date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201

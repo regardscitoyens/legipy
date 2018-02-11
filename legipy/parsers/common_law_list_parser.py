@@ -47,13 +47,15 @@ def parse_common_law_list(url, html):
         except Exception:
             pass
 
-        results.append(Law(
-            title=title,
-            common_name=common.replace('Loi', 'loi'),
-            nor=nor_num.group(1) if nor_num else None,
-            url_legi=url_legi,
-            id_legi=qs_legi['cidTexte'][0]
-        ))
+        results.append(
+            Law(
+                title=title,
+                common_name=common.replace('Loi', 'loi'),
+                nor=nor_num.group(1) if nor_num else None,
+                url_legi=url_legi,
+                id_legi=qs_legi['cidTexte'][0]
+            )
+        )
 
     return results
 

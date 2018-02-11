@@ -4,7 +4,12 @@ from .base import LegipyModel
 
 
 class Code(LegipyModel):
-    def __init__(self, id_code, title=None, subtitle=None, date_pub=None, url_code=None):
+    def __init__(self,
+                 id_code,
+                 title=None,
+                 subtitle=None,
+                 date_pub=None,
+                 url_code=None):
         self.id_code = id_code
         self.title = title
         self.subtitle = subtitle
@@ -14,7 +19,13 @@ class Code(LegipyModel):
 
 
 class Section(LegipyModel):
-    def __init__(self, id_section, title, content=None, articles=None, url_section=None, children=None):
+    def __init__(self,
+                 id_section,
+                 title,
+                 content=None,
+                 articles=None,
+                 url_section=None,
+                 children=None):
         self.id_section = id_section
         self.title = title
         self.content = content
@@ -24,6 +35,8 @@ class Section(LegipyModel):
 
 
 class Article(LegipyModel):
-    def __init__(self, title, history):
+    def __init__(self,
+                 title,
+                 history):
         self.title = title
         self.history = history

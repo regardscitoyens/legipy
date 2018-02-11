@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import re
 
 from bs4 import BeautifulSoup
-
 from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urljoin
 from six.moves.urllib.parse import urlparse

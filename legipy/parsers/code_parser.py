@@ -63,13 +63,18 @@ class CodeParser(object):
         soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
 
         # -- main text
-        div = soup.find('div', id='content_false').find('div', attrs={'class': 'data'})
+        div = (soup
+               .find('div', id='content_false')
+               .find('div', attrs={'class': 'data'}))
 
-        code = Code(self.id_code, date_pub=self.date_pub, url_code=cleanup_url(url))
+        code = Code(self.id_code,
+                    date_pub=self.date_pub,
+                    url_code=cleanup_url(url))
 
         # -- Code title/subtitle
         div_title = div.find('div', id='titreTexte')
-        span_subtitle = div_title.find('span', attrs={'class': 'sousTitreTexte'})
+        span_subtitle = div_title.find('span',
+                                       attrs={'class': 'sousTitreTexte'})
         if span_subtitle:
             code.title = div_title.text.replace(span_subtitle.text, '')
         code.subtitle = span_subtitle.text.strip()
@@ -85,20 +90,28 @@ class CodeParser(object):
         """Fill the toc item"""
         li_list = ul.find_all('li', recursive=False)
         li = li_list[0]
-        span_title = li.find('span', attrs={'class': re.compile(r'TM\d+Code')}, recursive=False)
+        span_title = li.find('span',
+                             attrs={'class': re.compile(r'TM\d+Code')},
+                             recursive=False)
 
         section = Section(span_title.attrs['id'], span_title.text.strip())
         div_italic = li.find('div', attrs={'class': 'italic'}, recursive=False)
         if div_italic:
             section.content = div_italic.text.strip()
-        span_link = li.find('span', attrs={'class': 'codeLienArt'}, recursive=False)
+        span_link = li.find('span',
+                            attrs={'class': 'codeLienArt'},
+                            recursive=False)
         if span_link:
             a_link = span_link.find('a', recursive=False)
             if self.with_articles:
-                section.articles = self.section_service.articles(self.id_code, section.id_section, self.date_pub)
+                service = self.section_service
+                section.articles = service.articles(self.id_code,
+                                                    section.id_section,
+                                                    self.date_pub)
             else:
                 section.articles = a_link.text.strip()
-            section.url_section = cleanup_url(urljoin(url, a_link.attrs['href']))
+            section.url_section = cleanup_url(
+                urljoin(url, a_link.attrs['href']))
         section.children = [self.parse_code_ul(url, child)
                             for child in li.find_all('ul', recursive=False)]
         return section
@@ -106,17 +119,25 @@ class CodeParser(object):
 
 def parser_articles(html):
     soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
-    div = soup.find('div', id='content_false').find('div', attrs={'class': 'data'})
+    div = (soup
+           .find('div', id='content_false')
+           .find('div', attrs={'class': 'data'}))
     div_list = div.find_all('div', attrs={'class': 'article'}, recursive=False)
     articles = []
     for div_article in div_list:
-        div_title = div_article.find(attrs={'class': 'titreArt'}, recursive=False)
+        div_title = div_article.find('div',
+                                     attrs={'class': 'titreArt'},
+                                     recursive=False)
         title = div_title.text
         a_link = div_title.find('a')
         if a_link:
             title = title.replace(a_link.text, '')
         title = title.strip()
-        div_history = div_article.find_all('div', attrs={'class': 'histoArt'}, recursive=False)
-        article = Article(title, [(entry.find('a') or entry.find('span')).text for entry in div_history])
+        div_history = div_article.find_all('div',
+                                           attrs={'class': 'histoArt'},
+                                           recursive=False)
+        article = Article(title,
+                          [(entry.find('a') or entry.find('span')).text
+                           for entry in div_history])
         articles.append(article)
     return articles
