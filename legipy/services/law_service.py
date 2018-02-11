@@ -1,13 +1,17 @@
 # coding: utf-8
 
 import requests
+import six
 
-from ..common import servlet_url
-from ..parsers import (parse_pending_law_list, parse_published_law_list,
-                       parse_law)
+from legipy.common import servlet_url
+from legipy.parsers.law_parser import parse_law
+from legipy.parsers.pending_law_list_parser import parse_pending_law_list
+from legipy.parsers.published_law_list_parser import parse_published_law_list
+from legipy.services import Singleton
 
 
-class LawService:
+@six.add_metaclass(Singleton)
+class LawService(object):
     pub_url = servlet_url('affichLoiPubliee')
     pend_url = servlet_url('affichLoiPreparation')
 

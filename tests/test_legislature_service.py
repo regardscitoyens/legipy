@@ -4,10 +4,10 @@ from datetime import date
 
 import vcr
 
-from legipy.services import LegislatureService
-
+from legipy.services.legislature_service import LegislatureService
 
 recorder = vcr.VCR(cassette_library_dir='tests/fixtures/cassettes')
+
 
 @recorder.use_cassette()
 def test_list_legislatures():
