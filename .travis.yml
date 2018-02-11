@@ -9,12 +9,11 @@ python:
 
 install:
   - pip install -U setuptools>=18.5
-  - pip install pytest pytest-cov flake8 pep8 vcrpy
+  - pip install pytest pytest-cov flake8 vcrpy
   - pip install -e .
 
 script:
-  - pep8 --exclude=tests .
-  - flake8 --exclude=tests .
+  - flake8 legipy
   - py.test
 
 after_success:
