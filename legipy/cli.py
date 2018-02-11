@@ -82,8 +82,10 @@ def codes():
 
 @cli.command(short_help=u"Show code detail")
 @click.argument('id-code')
-@click.option('--date-pub', help=u"Publication date (ISO format), default to today")
-@click.option('--with-articles/--without-articles', default=False, help=u"Show details for each articles")
+@click.option('--date-pub',
+              help=u"Publication date (ISO format), default to today")
+@click.option('--with-articles/--without-articles', default=False,
+              help=u"Show details for each articles")
 def code(id_code, date_pub, with_articles):
     if date_pub:
         date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
@@ -94,7 +96,8 @@ def code(id_code, date_pub, with_articles):
 @cli.command(short_help=u"Show code detail")
 @click.argument('id-code')
 @click.argument('id-section')
-@click.option('--date-pub', help=u"Publication date (ISO format), default to today")
+@click.option('--date-pub',
+              help=u"Publication date (ISO format), default to today")
 def code_section(id_code, id_section, date_pub):
     obj = SectionService().articles(id_code, id_section, date_pub)
     print(json.dumps(obj, indent=2, default=json_serial))
