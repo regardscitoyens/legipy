@@ -61,7 +61,7 @@ def parse_date(string):
 
     try:
         month = 1 + MONTHS.index(match.group(2))
-    except (ValueError, TypeError):
+    except (IndexError, ValueError, TypeError):
         return None
 
     return date(int(match.group(3)), month, int(match.group(1)))
