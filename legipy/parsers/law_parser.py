@@ -37,7 +37,7 @@ def parse_law(url, html, id_legi):
         try:
             LAW_KINDS.index(prop.group(2))
             law.kind = prop.group(2)
-        except (IndexError, ValueError, TypeError):
+        except ValueError:
             law.kind = None
 
     if title_remain:
