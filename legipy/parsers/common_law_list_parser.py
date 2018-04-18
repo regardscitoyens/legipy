@@ -37,13 +37,13 @@ def parse_common_law_list(url, html):
             common = common_text
         try:
             second = re_find_second.search(common_text)
-            common += ";%s" % "".join(second.groups())
+            common += " ; %s" % "".join(second.groups())
         except Exception as e:
             pass
 
         results.append(Law(
             title=title,
-            common_name=common,
+            common_name=common.replace('Loi', 'loi'),
             nor=nor_num.group(1) if nor_num else None,
             url_legi=url_legi,
             id_legi=qs_legi['cidTexte'][0]
@@ -54,5 +54,6 @@ def parse_common_law_list(url, html):
 
 def _clean_typos_legifrance(text):
     text = text.replace('loi ALUR \'', 'loi ALUR "')
-    text = text.replace('Ek Khomry', 'El Khomry')
+    text = text.replace('Ek Khomry', 'loi El Khomry')
+    text = text.replace('DDADUE', 'loi DDADUE')
     return text

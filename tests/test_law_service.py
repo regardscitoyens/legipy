@@ -117,3 +117,26 @@ def test_pending_law_project():
     assert law.id_senat == 'pjl11-607'
     assert law.pub_date is None
     assert law.title == u'Projet de loi ratifiant l’ordonnance n° 2011-1923 du 22 décembre 2011 relative à l\'évolution de la sécurité sociale à Mayotte dans le cadre de la départementalisation'
+
+
+@recorder.use_cassette()
+def test_list_common_law_projects():
+    service = LawService()
+    laws = service.common_laws()
+
+    assert 139 == len(laws)
+
+    assert laws[0].common_name == "loi El Khomry"
+    assert laws[0].id_legi == "JORFTEXT000032983213"
+    assert laws[0].nor == "ETSX1604461L"
+    assert laws[0].title == "LOI n\u00b0 2016-1088 du 8 ao\u00fbt 2016 relative au travail, \u00e0 la modernisation du dialogue social et \u00e0 la s\u00e9curisation des parcours professionnels"
+    assert laws[0].url_legi == "https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000032983213&categorieLien=id"
+
+    assert laws[11].common_name == "loi ALUR ; loi Duflot"
+    assert laws[14].common_name == "Transposition de l'accord interprofessionnel (ANI) 2013"
+    assert laws[17].common_name == "loi DDADUE ; DADUE"
+    assert laws[42].common_name == "loi TEPA ; paquet fiscal"
+
+    assert laws[-1].common_name == "loi Marthe Richard"
+    assert laws[-1].id_legi == "JPDF1404194600003138"
+
