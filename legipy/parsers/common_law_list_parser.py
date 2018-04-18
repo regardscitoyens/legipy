@@ -15,6 +15,9 @@ def parse_common_law_list(url, html):
     div = soup.find('div', {'id': 'content_right'})
     ul = div.find('ul')
 
+    re_find_common = re.compile(r'dite?[: ]+(?:loi )?"\s*([^"]+?)\s*"', re.I)
+    re_find_second = re.compile(r'"\s*ou ((?:loi )?)"\s*([^"]+?)\s*"', re.I)
+
     for law_entry in ul.select('li'):
         link = law_entry.find('a')
         if not link:
@@ -22,15 +25,25 @@ def parse_common_law_list(url, html):
 
         link_text = _clean_typos_legifrance(law_entry.get_text())
         nor_num = re.search(r'NOR\s*([A-Z0-9]+)\n', link_text)
-        title = link_text.split('NOR')[0].strip() if nor_num else link_text
-
         url_legi = cleanup_url(urljoin(url, link['href']))
         qs_legi = parse_qs(urlparse(url_legi).query)
-        #print(link_text, nor_num, url_legi, qs_legi)
+
+        text_parts = link_text.strip("\n\r\t\s)").split('\n')
+        title = merge_spaces(text_parts[0])
+        common_text = merge_spaces(text_parts[-1]).strip("() ")
+        try:
+            common = re_find_common.search(common_text).group(1)
+        except Exception as e:
+            common = common_text
+        try:
+            second = re_find_second.search(common_text)
+            common += ";%s" % "".join(second.groups())
+        except Exception as e:
+            pass
 
         results.append(Law(
             title=title,
-            common_name=merge_spaces(link_text),
+            common_name=common,
             nor=nor_num.group(1) if nor_num else None,
             url_legi=url_legi,
             id_legi=qs_legi['cidTexte'][0]
@@ -38,6 +51,8 @@ def parse_common_law_list(url, html):
 
     return results
 
+
 def _clean_typos_legifrance(text):
+    text = text.replace('loi ALUR \'', 'loi ALUR "')
     text = text.replace('Ek Khomry', 'El Khomry')
     return text
