@@ -50,6 +50,11 @@ def law_proposals(legislature):
 
 
 @cli.command()
+def common_laws():
+    _dump_items(LawService().common_laws())
+
+
+@cli.command()
 @click.argument('legi_id')
 def law(legi_id):
     service = LawService()
