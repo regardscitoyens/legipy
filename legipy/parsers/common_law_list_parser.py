@@ -54,6 +54,6 @@ def parse_common_law_list(url, html):
 
 def _clean_typos_legifrance(text):
     text = text.replace('loi ALUR \'', 'loi ALUR "')
-    text = text.replace('Ek Khomry', 'loi El Khomry')
+    text = text.replace('Ek Khomry', 'loi El Khomri')
     text = text.replace('DDADUE', 'loi DDADUE')
     return text
