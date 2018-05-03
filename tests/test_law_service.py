@@ -126,7 +126,7 @@ def test_list_common_law_projects():
 
     assert 139 == len(laws)
 
-    assert laws[0].common_name == "loi El Khomry"
+    assert laws[0].common_name == "loi El Khomri"
     assert laws[0].id_legi == "JORFTEXT000032983213"
     assert laws[0].nor == "ETSX1604461L"
     assert laws[0].title == "LOI n\u00b0 2016-1088 du 8 ao\u00fbt 2016 relative au travail, \u00e0 la modernisation du dialogue social et \u00e0 la s\u00e9curisation des parcours professionnels"
