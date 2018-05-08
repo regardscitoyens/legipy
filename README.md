@@ -65,5 +65,12 @@ legipy codes
 
 ```bash
 legipy code LEGITEXT000006074075
-legipy code --date-pub 2018-01 LEGITEXT000006074075
+legipy code --date-pub 2018-05-01 LEGITEXT000006074075
+```
+
+### Show code section details
+
+```bash
+legipy code_section LEGITEXT000006074075 LEGISCTA000006107991
+legipy code --date-pub 2018-05-01 LEGITEXT000006074075 LEGISCTA000006107991
 ```

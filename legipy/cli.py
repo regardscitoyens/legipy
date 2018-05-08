@@ -67,7 +67,7 @@ def law_proposals(legislature):
     _dump_items(LawService().pending_laws(legislature, False))
 
 
-@cli.command(u"List common laws (« lois dites »)")
+@cli.command(short_help=u"List common laws (« lois dites »)")
 def common_laws():
     _dump_items(LawService().common_laws())
 
