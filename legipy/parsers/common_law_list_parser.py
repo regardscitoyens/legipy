@@ -35,12 +35,12 @@ def parse_common_law_list(url, html):
         common_text = merge_spaces(text_parts[-1]).strip("() ")
         try:
             common = re_find_common.search(common_text).group(1)
-        except Exception as e:
+        except Exception:
             common = common_text
         try:
             second = re_find_second.search(common_text)
             common += " ; %s" % "".join(second.groups())
-        except Exception as e:
+        except Exception:
             pass
 
         results.append(Law(
