@@ -126,17 +126,17 @@ def test_list_common_law_projects():
 
     assert 139 == len(laws)
 
-    assert laws[0].common_name == "loi El Khomri"
-    assert laws[0].id_legi == "JORFTEXT000032983213"
-    assert laws[0].nor == "ETSX1604461L"
-    assert laws[0].title == "LOI n\u00b0 2016-1088 du 8 ao\u00fbt 2016 relative au travail, \u00e0 la modernisation du dialogue social et \u00e0 la s\u00e9curisation des parcours professionnels"
-    assert laws[0].url_legi == "https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000032983213&categorieLien=id"
+    assert laws[0].common_name == u"loi El Khomri"
+    assert laws[0].id_legi == u"JORFTEXT000032983213"
+    assert laws[0].nor == u"ETSX1604461L"
+    assert laws[0].title == u"LOI n\u00b0 2016-1088 du 8 ao\u00fbt 2016 relative au travail, \u00e0 la modernisation du dialogue social et \u00e0 la s\u00e9curisation des parcours professionnels"
+    assert laws[0].url_legi == u"https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000032983213&categorieLien=id"
 
-    assert laws[11].common_name == "loi ALUR ; loi Duflot"
-    assert laws[14].common_name == "Transposition de l'accord interprofessionnel (ANI) 2013"
-    assert laws[17].common_name == "loi DDADUE ; DADUE"
-    assert laws[42].common_name == "loi TEPA ; paquet fiscal"
+    assert laws[11].common_name == u"loi ALUR ; loi Duflot"
+    assert laws[14].common_name == u"Transposition de l'accord interprofessionnel (ANI) 2013"
+    assert laws[17].common_name == u"loi DDADUE ; DADUE"
+    assert laws[42].common_name == u"loi TEPA ; paquet fiscal"
 
-    assert laws[-1].common_name == "loi Marthe Richard"
-    assert laws[-1].id_legi == "JPDF1404194600003138"
+    assert laws[-1].common_name == u"loi Marthe Richard"
+    assert laws[-1].id_legi == u"JPDF1404194600003138"
 
