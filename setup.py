@@ -2,7 +2,7 @@
 
 from codecs import open
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -44,9 +44,7 @@ setup(
 
     keywords='scraping politics data france',
 
-    packages=[
-        'legipy'
-    ],
+    packages=find_packages(),
 
     install_requires=[
         'beautifulsoup4 < 4.7, >= 4.6',
