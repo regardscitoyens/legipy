@@ -14,7 +14,7 @@ assert __version__ is not None
 with open(os.path.join(here, 'README.md')) as readme:
     LONG_DESC = readme.read()
 
-with open(path.join(here, 'requirements.txt')) as f:
+with open(os.path.join(here, 'requirements.txt')) as f:
     requirements = f.read().splitlines()
 
 setup(
