@@ -1,0 +1,6 @@
+beautifulsoup4 < 4.7, >= 4.6
+click < 6.8, >= 6.7
+html5lib < 1.1, >= 1.0
+requests < 2.19, >= 2.18
+urllib3[secure] <1.23, >= 1.22
+six < 1.12, >= 1.11

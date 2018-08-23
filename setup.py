@@ -14,6 +14,9 @@ assert __version__ is not None
 with open(os.path.join(here, 'README.md')) as readme:
     LONG_DESC = readme.read()
 
+with open(path.join(here, 'requirements.txt')) as f:
+    requirements = f.read().splitlines()
+
 setup(
     name='legipy',
     version=__version__,
@@ -46,14 +49,7 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=[
-        'beautifulsoup4 < 4.7, >= 4.6',
-        'click < 6.8, >= 6.7',
-        'html5lib < 1.1, >= 1.0',
-        'requests < 2.19, >= 2.18',
-        'urllib3[secure] <1.23, >= 1.22',
-        'six < 1.12, >= 1.11',
-    ],
+    install_requires=requirements,
 
     # http://setuptools.readthedocs.io/en/latest/setuptools.html#declaring-extras-optional-features-with-their-own-dependencies
     extras_require={
