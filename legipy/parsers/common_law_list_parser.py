@@ -34,7 +34,7 @@ def parse_common_law_list(url, html):
         url_legi = cleanup_url(urljoin(url, link['href']))
         qs_legi = parse_qs(urlparse(url_legi).query)
 
-        text_parts = link_text.strip("\n\r\t\s)").split('\n')
+        text_parts = link_text.strip("\n\r\t )").split('\n')
         title = merge_spaces(text_parts[0])
         common_text = merge_spaces(text_parts[-1]).strip("() ")
         try:

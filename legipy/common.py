@@ -49,7 +49,7 @@ def cleanup_url(url):
 
 
 def merge_spaces(string):
-    return re.sub('\s+', ' ', string)
+    return re.sub(r'\s+', ' ', string)
 
 
 def parse_date(string):

@@ -34,7 +34,7 @@ def parse_law(url, html, id_legi):
         law.number = law_num.group(2)
         title_remain = law_num.group(3)
 
-    prop = re.match('(proj|prop)(?:et de loi|osition de loi) (\w+)', law.title,
+    prop = re.match(r'(proj|prop)(?:et de loi|osition de loi) (\w+)', law.title,
                     re.I)
     if prop:
         law.type = prop.group(1).lower()

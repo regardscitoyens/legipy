@@ -26,7 +26,7 @@ def parse_pending_law_list(url, html):
 
         for law_entry in ul.select('li a'):
             link_text = law_entry.get_text()
-            nor_num = re.search('\(([A-Z0-9]+)\)$', link_text)
+            nor_num = re.search(r'\(([A-Z0-9]+)\)$', link_text)
 
             url_legi = cleanup_url(urljoin(url, law_entry['href']))
             qs_legi = parse_qs(urlparse(url_legi).query)
