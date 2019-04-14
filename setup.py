@@ -23,6 +23,7 @@ setup(
 
     description='Python client for legifrance.gouv.fr website',
     long_description=LONG_DESC,
+    long_description_content_type='text/markdown',
     license="MIT",
 
     url='https://github.com/regardscitoyens/legipy',
