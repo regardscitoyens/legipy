@@ -10,7 +10,7 @@ python:
 
 install:
   - pip install -U setuptools>=18.5
-  - pip install pytest pytest-cov flake8 vcrpy
+  - pip install "pytest>=3.6" pytest-cov flake8 vcrpy
   - pip install -e .
 
 script:
