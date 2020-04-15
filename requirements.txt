@@ -4,3 +4,4 @@ html5lib < 1.1, >= 1.0
 requests < 2.21, >= 2.20
 urllib3[secure] <1.25, >= 1.24
 six < 1.12, >= 1.11
+requests-cache >= 0.5.2

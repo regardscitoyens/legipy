@@ -7,6 +7,9 @@ import json
 import sys
 
 import click
+import requests
+import requests_cache
+
 
 from legipy.models.base import LegipyModel
 from legipy.services.code_service import CodeService
@@ -47,10 +50,11 @@ def _dump_items(ary):
         )
     )
 
-
 @click.group(short_help=u"Client for the `legifrance.gouv.fr` website.")
-def cli():
-    pass
+@click.option('--cache/--no-cache', default=False)
+def cli(cache):
+    if cache:
+        requests_cache.install_cache('legipy_cache')
 
 
 @cli.command(short_help=u"List published laws")
