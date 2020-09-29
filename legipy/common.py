@@ -44,6 +44,10 @@ def page_url(page):
     return 'http://%s/%s.jsp' % (DOMAIN, page)
 
 
+def new_page_url(page):
+    return 'https://%s/%s' % (DOMAIN, page)
+
+
 def cleanup_url(url):
     return re.sub(r';jsessionid=[^?]+\?', '?', url)
 
