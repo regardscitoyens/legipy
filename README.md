@@ -1,4 +1,4 @@
-legipy
+legipy - An amazine project
 ======
 
 [![Build Status](https://travis-ci.org/regardscitoyens/legipy.svg?branch=master)](https://travis-ci.org/regardscitoyens/legipy)
