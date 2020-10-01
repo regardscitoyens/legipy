@@ -4,6 +4,8 @@ legipy
 [![Build Status](https://travis-ci.org/regardscitoyens/legipy.svg?branch=master)](https://travis-ci.org/regardscitoyens/legipy)
 [![codecov](https://codecov.io/gh/regardscitoyens/legipy/branch/master/graph/badge.svg)](https://codecov.io/gh/regardscitoyens/legipy)
 
+**⚠️ since the new update of legifrance (2020), there's anti-scrapping and the layout changed making this library obsolete for now**
+
 Python client for the `legifrance.gouv.fr` website.
 
 CLI usage
