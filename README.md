@@ -1,3 +1,5 @@
+Logr - An Amazing Project
+
 legipy
 ======
 
