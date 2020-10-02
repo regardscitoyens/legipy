@@ -1,4 +1,4 @@
-legipy
+legipy -   "Python is everywhere"
 ======
 
 [![Build Status](https://travis-ci.org/regardscitoyens/legipy.svg?branch=master)](https://travis-ci.org/regardscitoyens/legipy)
