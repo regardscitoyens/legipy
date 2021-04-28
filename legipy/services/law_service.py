@@ -3,7 +3,7 @@
 import requests
 import six
 
-from legipy.common import servlet_url
+from legipy.common import servlet_url, new_page_url
 from legipy.parsers.law_parser import parse_law
 from legipy.parsers.common_law_list_parser import parse_common_law_list
 from legipy.parsers.pending_law_list_parser import parse_pending_law_list
@@ -13,7 +13,7 @@ from legipy.services import Singleton
 
 @six.add_metaclass(Singleton)
 class LawService(object):
-    pub_url = servlet_url('affichLoiPubliee')
+    pub_url = new_page_url('liste/dossierslegislatifs/{legislature}/')
     pend_url = servlet_url('affichLoiPreparation')
     comm_url = servlet_url('affichSarde')
 
@@ -29,10 +29,11 @@ class LawService(object):
 
     def published_laws(self, legislature):
         response = requests.get(
-            self.pub_url,
-            params={'legislature': legislature}
+            self.pub_url.format(legislature=legislature),
+            params={'type': 'LOI_PUBLIEE'}
         )
-        return parse_published_law_list(response.url, response.content)
+        return parse_published_law_list(response.url, response.content,
+                                        legislature=legislature)
 
     def common_laws(self):
         laws = True

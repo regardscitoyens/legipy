@@ -15,19 +15,20 @@ from legipy.common import parse_date
 from legipy.models.law import Law
 
 
-def parse_published_law_list(url, html):
+def parse_published_law_list(url, html, **law_args):
     soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
     results = []
 
-    for year_header in soup.find_all('h3'):
-        year = int(year_header.get_text())
-        ul = year_header.find_next_sibling('ul')
+    for year_header in soup.find_all('h2'):
+        year = int(year_header.get_text().strip())
+        ul = year_header.find_next('ul')
 
         if not ul:
+            print('No ul found')
             continue
 
         for law_entry in ul.select('li a'):
-            link_text = law_entry.get_text()
+            link_text = law_entry.get_text().strip()
             law_num = re.match(r'LOI\s+(?:([^\s]+)\s+)?n°\s+([^\s]+)',
                                link_text, re.I)
 
@@ -35,22 +36,20 @@ def parse_published_law_list(url, html):
                 continue
 
             url_legi = cleanup_url(urljoin(url, law_entry['href']))
-            qs_legi = parse_qs(urlparse(url_legi).query)
 
-            title = law_entry.next_sibling
             pub_date = re.match(r'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
-                                title)
+                                link_text[len(law_num.group(0)):])
 
+            print(pub_date.group(1))
             results.append(Law(
                 year=year,
-                legislature=int(qs_legi['legislature'][0]),
                 number=law_num.group(2),
                 type='law',
                 kind=law_num.group(1),
                 pub_date=parse_date(pub_date.group(1)) if pub_date else None,
-                title=merge_spaces(link_text + title),
+                title=merge_spaces(link_text),
                 url_legi=url_legi,
-                id_legi=qs_legi['idDocument'][0]
+                **law_args
             ))
 
     return results
