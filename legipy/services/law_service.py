@@ -15,18 +15,15 @@ from legipy.services import Singleton
 class LawService(object):
     pub_url = new_page_url('liste/dossierslegislatifs/{legislature}/')
     law_url = new_page_url('dossierlegislatif/{id_legi}/')
-    pend_url = servlet_url('affichLoiPreparation')
     comm_url = servlet_url('affichSarde')
 
     def pending_laws(self, legislature, government=True):
         response = requests.get(
-            self.pend_url,
-            params={
-                'legislature': legislature,
-                'typeLoi': 'proj' if government else 'prop'
-            }
+            self.pub_url.format(legislature=legislature),
+            params={'type': 'PROJET_LOI' if government else 'PROPOSITION_LOI'}
         )
-        return parse_pending_law_list(response.url, response.content)
+        return parse_pending_law_list(response.url, response.content,
+                                      legislature=legislature)
 
     def published_laws(self, legislature):
         response = requests.get(
@@ -49,6 +46,7 @@ class LawService(object):
                     'page': page
                 }
             )
+            print(response.url)
             laws = parse_common_law_list(response.url, response.content)
             common_laws += laws
             page += 1
