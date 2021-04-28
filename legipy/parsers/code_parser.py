@@ -6,6 +6,7 @@ import re
 from bs4 import BeautifulSoup
 from six.moves.urllib.parse import urljoin
 
+from legipy.common import find_all_non_nested
 from legipy.common import cleanup_url
 from legipy.common import parse_date
 from legipy.models.code import Article
@@ -63,63 +64,52 @@ class CodeParser(object):
         """
         soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
 
-        # -- main text
-        div = (soup
-               .find('div', id='content_false')
-               .find('div', attrs={'class': 'data'}))
-
         code = Code(self.id_code,
                     date_pub=self.date_pub,
                     url_code=cleanup_url(url))
 
         # -- Code title/subtitle
-        div_title = div.find('div', id='titreTexte')
-        span_subtitle = div_title.find('span',
-                                       attrs={'class': 'sousTitreTexte'})
-        if span_subtitle:
-            code.title = div_title.text.replace(span_subtitle.text, '')
-            code.subtitle = span_subtitle.text.strip()
-            regex = r'Version consolidée au (\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})'
-            m = re.search(regex, code.subtitle)
-            if m:
-                code.date_pub = parse_date(m.group(1))
-
-        code.title = code.title.strip()
+        code.title = soup.h1.text.strip()
+        code.subtitle = soup.find('div', {'class': 'vigor-title'}).text.strip()
+        regex = (r'Version (en vigueur au|abrogée depuis le) ' +
+                 r'(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})')
+        m = re.search(regex, code.subtitle)
+        if m:
+            code.date_pub = parse_date(m.group(1))
 
         # -- TOC
-        code.children = [self.parse_code_ul(url, child)
-                         for child in div.find_all('ul', recursive=False)]
+        toc = soup.find('ul', id='liste-sommaire')
+        code.children = [self.parse_toc_element(url, partie)
+                         for partie in toc.find_all('li', recursive=False)]
 
         return code
 
-    def parse_code_ul(self, url, ul):
+    def parse_toc_element(self, url, li):
         """Fill the toc item"""
-        li_list = ul.find_all('li', recursive=False)
-        li = li_list[0]
-        span_title = li.find('span',
-                             attrs={'class': re.compile(r'TM\d+Code')},
-                             recursive=False)
+        a_link = li.find('a', attrs={'class': 'articleLink'}, recursive=False)
 
-        section = Section(span_title.attrs['id'], span_title.text.strip())
-        div_italic = li.find('div', attrs={'class': 'italic'}, recursive=False)
-        if div_italic:
-            section.content = div_italic.text.strip()
-        span_link = li.find('span',
-                            attrs={'class': 'codeLienArt'},
-                            recursive=False)
-        if span_link:
-            a_link = span_link.find('a', recursive=False)
-            if self.with_articles:
-                service = self.section_service
-                section.articles = service.articles(self.id_code,
-                                                    section.id_section,
-                                                    self.date_pub)
-            else:
-                section.articles = a_link.text.strip()
-            section.url_section = cleanup_url(
-                urljoin(url, a_link.attrs['href']))
-        section.children = [self.parse_code_ul(url, child)
-                            for child in li.find_all('ul', recursive=False)]
+        if a_link:
+            # cleanup_url(urljoin(url, a_link.attrs['href']))
+            return Article(a_link.text.strip(), None,
+                           re.sub('^art', '', a_link.attrs['id']))
+
+        title = li.find(['span', 'a'], attrs={'class': 'title-link'},
+                        recursive=False)
+
+        section = Section(title.attrs['id'], title.text.strip())
+
+        for ul in find_all_non_nested(li, 'ul'):
+            for child_node in ul.find_all('li', recursive=False):
+                child = self.parse_toc_element(url, child_node)
+                if isinstance(child, Article) and self.with_articles:
+                    if section.articles is None:
+                        section.articles = []
+                    section.articles.append(child)
+                elif isinstance(child, Section):
+                    if section.children is None:
+                        section.children = []
+                    section.children.append(child)
+
         return section
 
 

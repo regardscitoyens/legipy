@@ -13,7 +13,7 @@ from legipy.services import Singleton
 @six.add_metaclass(Singleton)
 class CodeService(object):
     code_list_url = new_page_url('liste/code')
-    code_url = servlet_url('codes/texte_lc/{id_code}')
+    code_url = new_page_url('codes/texte_lc/{id_code}/{date}/')
 
     def codes(self):
         # https://www.legifrance.gouv.fr/liste/code?etatTexte=VIGUEUR
@@ -24,14 +24,10 @@ class CodeService(object):
         return CodeParser.parse_code_list(response.url, response.content)
 
     def code(self, id_code, date_pub, with_articles):
-        # https://www.legifrance.gouv.fr/affichCode.do?cidTexte=LEGITEXT000006074228&dateTexte=20180203
-        date_pub = date_pub or datetime.date.today().strftime('%Y%m%d')
+        # https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000006075116/2021-04-28/
+        date_pub = date_pub or datetime.date.today().strftime('%Y-%m-%d')
         response = requests.get(
-            self.code_url,
-            params={
-                'cidTexte': id_code,
-                'dateTexte': date_pub
-            }
+            self.code_url.format(id_code=id_code, date=date_pub),
         )
         parser = CodeParser(id_code, date_pub, with_articles=with_articles)
         return parser.parse_code(response.url, response.content)

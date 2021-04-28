@@ -109,8 +109,6 @@ def codes():
 @click.option('--with-articles/--without-articles', default=False,
               help=u"Show details for each articles")
 def code(id_code, date_pub, with_articles):
-    if date_pub:
-        date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
     _dump_item(
         CodeService().code(id_code, date_pub, with_articles),
         error='No such code: %s' % id_code
