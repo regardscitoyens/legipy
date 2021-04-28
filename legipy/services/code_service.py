@@ -35,17 +35,14 @@ class CodeService(object):
 
 @six.add_metaclass(Singleton)
 class SectionService(object):
-    section_url = servlet_url('affichCode')
+    section_url = new_page_url('codes/section_lc/{id_code}/{id_section}/{date}/')
 
     def articles(self, id_code, id_section, date_pub):
+        # https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006071190/LEGISCTA000006151283/2021-04-28/
         # https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006175632&cidTexte=LEGITEXT000006074075&dateTexte=20180210
-        date_pub = date_pub or datetime.date.today().strftime('%Y%m%d')
+        date_pub = date_pub or datetime.date.today().strftime('%Y-%m-%d')
         response = requests.get(
-            self.section_url,
-            params={
-                'cidTexte': id_code,
-                'dateTexte': date_pub,
-                'idSectionTA': id_section
-            }
+            self.section_url.format(id_code=id_code, id_section=id_section,
+                                    date=date_pub)
         )
-        return parser_articles(response.content)
+        return parser_articles(response.url, response.content)

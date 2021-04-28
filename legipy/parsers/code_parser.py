@@ -113,27 +113,19 @@ class CodeParser(object):
         return section
 
 
-def parser_articles(html):
+def parser_articles(url, html):
     soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
-    div = (soup
-           .find('div', id='content_false')
-           .find('div', attrs={'class': 'data'}))
-    div_list = div.find_all('div', attrs={'class': 'article'}, recursive=False)
     articles = []
-    for div_article in div_list:
-        div_title = div_article.find('div',
-                                     attrs={'class': 'titreArt'},
-                                     recursive=False)
-        title = div_title.text
-        a_link = div_title.find('a')
-        if a_link:
-            title = title.replace(a_link.text, '')
-        title = title.strip()
-        div_history = div_article.find_all('div',
-                                           attrs={'class': 'histoArt'},
-                                           recursive=False)
-        article = Article(title,
-                          [(entry.find('a') or entry.find('span')).text
-                           for entry in div_history])
-        articles.append(article)
+    for article in soup.find_all('article'):
+        # Articles abrogés en h3
+        title = article.find(['h2', 'h3'])
+
+        # or title.attrs['data-anchor']
+        article_id = re.sub('(-[0-9])*$', '', title.attrs['id'])
+
+        # Only last modification
+        history = article.find('p', attrs={'class': 'date'})
+        history = history.text.strip() if history else None
+
+        articles.append(Article(title.text.strip(), history, article_id))
     return articles

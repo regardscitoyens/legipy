@@ -121,8 +121,6 @@ def code(id_code, date_pub, with_articles):
 @click.option('--date-pub',
               help=u"Publication date (ISO format), default to today")
 def code_section(id_code, id_section, date_pub):
-    if date_pub:
-        date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
     _dump_item(SectionService().articles(id_code, id_section, date_pub))
 
 
