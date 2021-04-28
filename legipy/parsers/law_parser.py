@@ -19,8 +19,7 @@ def parse_law(url, html, id_legi):
         id_legi=id_legi
     )
 
-    clean_title = merge_spaces(soup.h2.get_text()).strip()
-    law.title = re.sub(r'^Dossiers législatifs( - )?', '', clean_title).strip()
+    law.title = merge_spaces(soup.h1.get_text()).strip()
 
     if len(law.title) == 0:
         return None
@@ -53,15 +52,13 @@ def parse_law(url, html, id_legi):
         if pub_date:
             law.pub_date = parse_date(pub_date.group(1))
 
-    dos_senat = soup.find(lambda e: e.name == 'a' and (
-            re.search(r'/dossier-legislatif/', e['href']) or
-            re.search(r'/dossierleg/', e['href'])))
+    dos_senat = soup.find('a',
+                          href=re.compile(r'/dossierleg/|/dossier-legislatif/'))
     if dos_senat:
         law.url_senat = dos_senat['href'].split('#')[0]
         law.id_senat = re.search(r'([^/]+)\.html$', law.url_senat).group(1)
 
-    dos_an = soup.find(lambda e: e.name == 'a' and
-                       re.search(r'/dossiers/', e['href']))
+    dos_an = soup.find('a', href=re.compile(r'/dossiers/'))
 
     if dos_an:
         law.url_an = dos_an['href'].split('#')[0]

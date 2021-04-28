@@ -14,6 +14,7 @@ from legipy.services import Singleton
 @six.add_metaclass(Singleton)
 class LawService(object):
     pub_url = new_page_url('liste/dossierslegislatifs/{legislature}/')
+    law_url = new_page_url('dossierlegislatif/{id_legi}/')
     pend_url = servlet_url('affichLoiPreparation')
     comm_url = servlet_url('affichSarde')
 
@@ -55,10 +56,6 @@ class LawService(object):
 
     def get_law(self, id_legi):
         response = requests.get(
-            self.pub_url,
-            params={
-                'idDocument': id_legi,
-                'type': 'general'
-            }
+            self.law_url.format(id_legi=id_legi)
         )
         return parse_law(response.url, response.content, id_legi)
