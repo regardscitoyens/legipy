@@ -41,13 +41,13 @@ class CodeParser(object):
         return self._section_service
 
     @classmethod
-    def parse_code_list(cls, html):
+    def parse_code_list(cls, url, html):
         soup = BeautifulSoup(html, 'html5lib', from_encoding='utf-8')
-        form = soup.find('form', attrs={'action': '/rechCodeArticle.do'})
-        select = form.find('select', attrs={'name': 'cidTexte'})
-        return [Code(option.attrs['value'], option.get_text())
-                for option in select.find_all('option')
-                if option.attrs['value'] != '*']
+        codes = [code.find('a') for code in soup.find_all('h2')]
+        return [Code(re.sub('^id', '', code.attrs['id']),
+                     code.get_text().strip(),
+                     url_code=urljoin(url, code.attrs['href']))
+                for code in codes if code is not None]
 
     def parse_code(self, url, html):
         """

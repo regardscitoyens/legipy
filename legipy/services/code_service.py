@@ -4,6 +4,7 @@ import requests
 import six
 
 from legipy.common import servlet_url
+from legipy.common import new_page_url
 from legipy.parsers.code_parser import CodeParser
 from legipy.parsers.code_parser import parser_articles
 from legipy.services import Singleton
@@ -11,15 +12,16 @@ from legipy.services import Singleton
 
 @six.add_metaclass(Singleton)
 class CodeService(object):
-    code_list_url = servlet_url('initRechCodeArticle')
-    code_url = servlet_url('affichCode')
+    code_list_url = new_page_url('liste/code')
+    code_url = servlet_url('codes/texte_lc/{id_code}')
 
     def codes(self):
-        # https://www.legifrance.gouv.fr/initRechCodeArticle.do
+        # https://www.legifrance.gouv.fr/liste/code?etatTexte=VIGUEUR
+        # NB: etatTexte cumulable, valeurs possibles: VIGUEUR, VIGUEUR_DIFF, ABROGE
         response = requests.get(
             self.code_list_url,
         )
-        return CodeParser.parse_code_list(response.content)
+        return CodeParser.parse_code_list(response.url, response.content)
 
     def code(self, id_code, date_pub, with_articles):
         # https://www.legifrance.gouv.fr/affichCode.do?cidTexte=LEGITEXT000006074228&dateTexte=20180203
