@@ -15,7 +15,7 @@ from legipy.services import Singleton
 class LawService(object):
     pub_url = new_page_url('liste/dossierslegislatifs/{legislature}/')
     law_url = new_page_url('dossierlegislatif/{id_legi}/')
-    comm_url = servlet_url('affichSarde')
+    comm_url = None
 
     def pending_laws(self, legislature, government=True):
         response = requests.get(
@@ -34,23 +34,7 @@ class LawService(object):
                                         legislature=legislature)
 
     def common_laws(self):
-        laws = True
-        common_laws = []
-        page = 1
-        while laws:
-            response = requests.get(
-                self.comm_url,
-                params={
-                    'idSarde': 'SARDOBJT000007106573',
-                    'reprise': 'true',
-                    'page': page
-                }
-            )
-            print(response.url)
-            laws = parse_common_law_list(response.url, response.content)
-            common_laws += laws
-            page += 1
-        return common_laws
+        raise NotImplementedError('Common laws not updated to 2020 format')
 
     def get_law(self, id_legi):
         response = requests.get(
