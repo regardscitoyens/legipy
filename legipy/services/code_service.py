@@ -38,7 +38,6 @@ class SectionService(object):
 
     def articles(self, id_code, id_section, date_pub):
         # https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006071190/LEGISCTA000006151283/2021-04-28/
-        # https://www.legifrance.gouv.fr/affichCode.do?idSectionTA=LEGISCTA000006175632&cidTexte=LEGITEXT000006074075&dateTexte=20180210
         date_pub = date_pub or datetime.date.today().strftime('%Y-%m-%d')
         response = requests.get(
             self.section_url.format(id_code=id_code, id_section=id_section,

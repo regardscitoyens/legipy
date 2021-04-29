@@ -4,11 +4,12 @@ from __future__ import unicode_literals
 import re
 
 from bs4 import BeautifulSoup
-from six.moves.urllib.parse import urljoin
+from six.moves.urllib.parse import urljoin, urldefrag
 
 from legipy.common import find_all_non_nested
 from legipy.common import cleanup_url
 from legipy.common import parse_date
+from legipy.common import merge_spaces
 from legipy.models.code import Article
 from legipy.models.code import Code
 from legipy.models.code import Section
@@ -71,7 +72,7 @@ class CodeParser(object):
         # -- Code title/subtitle
         code.title = soup.h1.text.strip()
         code.subtitle = soup.find('div', {'class': 'vigor-title'}).text.strip()
-        regex = (r'Version (en vigueur au|abrogée depuis le) ' +
+        regex = (r'Version (?:en vigueur au|abrogée depuis le) ' +
                  r'(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})')
         m = re.search(regex, code.subtitle)
         if m:
@@ -96,7 +97,14 @@ class CodeParser(object):
         title = li.find(['span', 'a'], attrs={'class': 'title-link'},
                         recursive=False)
 
-        section = Section(title.attrs['id'], title.text.strip())
+        title_text, articles = re.match(r'(.*?)(?: \((Articles .*)\))?$',
+                                        merge_spaces(title.text.strip())
+                                       ).groups()
+        section = Section(title.attrs['id'], title_text)
+
+        if 'href' in title.attrs:
+            section_url = urldefrag(urljoin(url, title.attrs['href']))[0]
+            section.url_section = urljoin(url, section_url)
 
         for ul in find_all_non_nested(li, 'ul'):
             for child_node in ul.find_all('li', recursive=False):
@@ -109,6 +117,9 @@ class CodeParser(object):
                     if section.children is None:
                         section.children = []
                     section.children.append(child)
+
+        if not section.children and not self.with_articles:
+            section.articles = articles
 
         return section
 

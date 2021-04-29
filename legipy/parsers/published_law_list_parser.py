@@ -36,11 +36,11 @@ def parse_published_law_list(url, html, **law_args):
                 continue
 
             url_legi = cleanup_url(urljoin(url, law_entry['href']))
+            id_legi = law_entry['href'].strip('/').split('/')[1]
 
             pub_date = re.match(r'\s*du\s+(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})',
                                 link_text[len(law_num.group(0)):])
 
-            print(pub_date.group(1))
             results.append(Law(
                 year=year,
                 number=law_num.group(2),
@@ -49,6 +49,7 @@ def parse_published_law_list(url, html, **law_args):
                 pub_date=parse_date(pub_date.group(1)) if pub_date else None,
                 title=merge_spaces(link_text),
                 url_legi=url_legi,
+                id_legi=id_legi,
                 **law_args
             ))
 
