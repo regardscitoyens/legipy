@@ -3,14 +3,14 @@
 import requests
 import six
 
-from legipy.common import new_page_url
+from legipy.common import page_url
 from legipy.parsers.legislature_list_parser import parse_legislature_list
 from legipy.services import Singleton
 
 
 @six.add_metaclass(Singleton)
 class LegislatureService(object):
-    url = new_page_url('liste/legislatures')
+    url = page_url('liste/legislatures')
     cache = None
 
     @classmethod

@@ -3,8 +3,7 @@ import datetime
 import requests
 import six
 
-from legipy.common import servlet_url
-from legipy.common import new_page_url
+from legipy.common import page_url
 from legipy.parsers.code_parser import CodeParser
 from legipy.parsers.code_parser import parser_articles
 from legipy.services import Singleton
@@ -12,8 +11,8 @@ from legipy.services import Singleton
 
 @six.add_metaclass(Singleton)
 class CodeService(object):
-    code_list_url = new_page_url('liste/code')
-    code_url = new_page_url('codes/texte_lc/{id_code}/{date}/')
+    code_list_url = page_url('liste/code')
+    code_url = page_url('codes/texte_lc/{id_code}/{date}/')
 
     def codes(self):
         # https://www.legifrance.gouv.fr/liste/code?etatTexte=VIGUEUR
@@ -35,7 +34,7 @@ class CodeService(object):
 
 @six.add_metaclass(Singleton)
 class SectionService(object):
-    section_url = new_page_url('codes/section_lc/{id_code}/{id_section}/{date}/')
+    section_url = page_url('codes/section_lc/{id_code}/{id_section}/{date}/')
 
     def articles(self, id_code, id_section, date_pub):
         # https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006071190/LEGISCTA000006151283/2021-04-28/

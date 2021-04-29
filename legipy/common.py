@@ -37,15 +37,7 @@ ROMAN_VALUES = {
 }
 
 
-def servlet_url(servlet):
-    return 'http://%s/%s.do' % (DOMAIN, servlet)
-
-
 def page_url(page):
-    return 'http://%s/%s.jsp' % (DOMAIN, page)
-
-
-def new_page_url(page):
     return 'https://%s/%s' % (DOMAIN, page)
 
 

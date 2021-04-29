@@ -3,7 +3,7 @@
 import requests
 import six
 
-from legipy.common import servlet_url, new_page_url
+from legipy.common import page_url
 from legipy.parsers.law_parser import parse_law
 from legipy.parsers.common_law_list_parser import parse_common_law_list
 from legipy.parsers.pending_law_list_parser import parse_pending_law_list
@@ -13,8 +13,8 @@ from legipy.services import Singleton
 
 @six.add_metaclass(Singleton)
 class LawService(object):
-    pub_url = new_page_url('liste/dossierslegislatifs/{legislature}/')
-    law_url = new_page_url('dossierlegislatif/{id_legi}/')
+    pub_url = page_url('liste/dossierslegislatifs/{legislature}/')
+    law_url = page_url('dossierlegislatif/{id_legi}/')
     comm_url = None
 
     def pending_laws(self, legislature, government=True):
