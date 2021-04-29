@@ -7,7 +7,6 @@ import json
 import sys
 
 import click
-import requests
 import requests_cache
 
 
@@ -28,7 +27,7 @@ def json_serial(obj):
 
 
 def current_legislature():
-    cur = [l for l in LegislatureService.legislatures() if l.end is None]
+    cur = [leg for leg in LegislatureService.legislatures() if leg.end is None]
     return cur[0].number
 
 
@@ -49,6 +48,7 @@ def _dump_items(ary):
             default=json_serial
         )
     )
+
 
 @click.group(short_help=u"Client for the `legifrance.gouv.fr` website.")
 @click.option('--cache/--no-cache', default=False)

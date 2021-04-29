@@ -72,7 +72,7 @@ class CodeParser(object):
         # -- Code title/subtitle
         code.title = soup.h1.text.strip()
         code.subtitle = soup.find('div', {'class': 'vigor-title'}).text.strip()
-        regex = (r'Version (?:en vigueur au|abrogée depuis le) ' +
+        regex = (r'Version (?:en vigueur au|abrogée depuis le) '
                  r'(\d{1,2}(?:er)?\s+[^\s]+\s+\d{4})')
         m = re.search(regex, code.subtitle)
         if m:
@@ -97,9 +97,10 @@ class CodeParser(object):
         title = li.find(['span', 'a'], attrs={'class': 'title-link'},
                         recursive=False)
 
-        title_text, articles = re.match(r'(.*?)(?: \((Articles .*)\))?$',
-                                        merge_spaces(title.text.strip())
-                                       ).groups()
+        match = re.match(r'(.*?)(?: \((Articles .*)\))?$',
+                         merge_spaces(title.text.strip()))
+        title_text, articles = match.groups()
+
         section = Section(title.attrs['id'], title_text)
 
         if 'href' in title.attrs:

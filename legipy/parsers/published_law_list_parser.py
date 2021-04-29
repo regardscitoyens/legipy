@@ -5,9 +5,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urljoin
-from six.moves.urllib.parse import urlparse
 
 from legipy.common import cleanup_url
 from legipy.common import merge_spaces

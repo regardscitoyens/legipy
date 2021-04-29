@@ -16,7 +16,7 @@ class CodeService(object):
 
     def codes(self):
         # https://www.legifrance.gouv.fr/liste/code?etatTexte=VIGUEUR
-        # NB: etatTexte cumulable, valeurs possibles: VIGUEUR, VIGUEUR_DIFF, ABROGE
+        # NB: valeurs etatTexte cumulables: VIGUEUR, VIGUEUR_DIFF, ABROGE
         response = requests.get(
             self.code_list_url,
         )

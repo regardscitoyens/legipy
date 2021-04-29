@@ -5,7 +5,6 @@ import six
 
 from legipy.common import page_url
 from legipy.parsers.law_parser import parse_law
-from legipy.parsers.common_law_list_parser import parse_common_law_list
 from legipy.parsers.pending_law_list_parser import parse_pending_law_list
 from legipy.parsers.published_law_list_parser import parse_published_law_list
 from legipy.services import Singleton

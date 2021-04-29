@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import re
 
 from bs4 import BeautifulSoup
-from six.moves.urllib.parse import parse_qs
 from six.moves.urllib.parse import urljoin
 from six.moves.urllib.parse import urlparse
 
@@ -29,7 +28,7 @@ def parse_pending_law_list(url, html, **law_kwargs):
             link_text = law_entry.get_text().strip()
             nor_num = re.search(r'\(([A-Z0-9]+)\)$', link_text)
 
-            type_loi = re.match(r'(Projet|Proposition)\s+de\s+loi\s+({})?'\
+            type_loi = re.match(r'(Projet|Proposition)\s+de\s+loi\s+({})?'
                                 .format('|'.join(LAW_KINDS)), link_text)
             if type_loi:
                 print(type_loi.groups())
