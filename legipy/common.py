@@ -2,6 +2,7 @@
 
 import datetime
 import re
+from bs4.element import Tag
 
 DOMAIN = 'www.legifrance.gouv.fr'
 
@@ -36,15 +37,7 @@ ROMAN_VALUES = {
 }
 
 
-def servlet_url(servlet):
-    return 'http://%s/%s.do' % (DOMAIN, servlet)
-
-
 def page_url(page):
-    return 'http://%s/%s.jsp' % (DOMAIN, page)
-
-
-def new_page_url(page):
     return 'https://%s/%s' % (DOMAIN, page)
 
 
@@ -87,3 +80,26 @@ def parse_roman(string):
             total += value
 
     return total
+
+
+def find_all_non_nested(parent, *args, **kwargs):
+    """ find_all for non-nested elements
+
+    I.e. the same semantics as find_all(..., recursive=True),
+    except we don’t search children of matched nodes
+    """
+    # Indulge python 2 ?
+    bfs = kwargs.pop('bfs', False)
+    kwargs['recursive'] = False
+
+    search = [parent]
+    found = []
+    while search:
+        node = search.pop(0 if bfs else -1)
+        found_at_node = node.find_all(*args, **kwargs)
+        found += found_at_node
+        search.extend(child for child in node.children if (
+            isinstance(child, Tag) and child not in found_at_node
+        ))
+
+    return found

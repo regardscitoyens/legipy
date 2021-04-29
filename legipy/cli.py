@@ -7,6 +7,8 @@ import json
 import sys
 
 import click
+import requests_cache
+
 
 from legipy.models.base import LegipyModel
 from legipy.services.code_service import CodeService
@@ -25,7 +27,7 @@ def json_serial(obj):
 
 
 def current_legislature():
-    cur = [l for l in LegislatureService.legislatures() if l.end is None]
+    cur = [leg for leg in LegislatureService.legislatures() if leg.end is None]
     return cur[0].number
 
 
@@ -49,8 +51,10 @@ def _dump_items(ary):
 
 
 @click.group(short_help=u"Client for the `legifrance.gouv.fr` website.")
-def cli():
-    pass
+@click.option('--cache/--no-cache', default=False)
+def cli(cache):
+    if cache:
+        requests_cache.install_cache('legipy_cache')
 
 
 @cli.command(short_help=u"List published laws")
@@ -105,8 +109,6 @@ def codes():
 @click.option('--with-articles/--without-articles', default=False,
               help=u"Show details for each articles")
 def code(id_code, date_pub, with_articles):
-    if date_pub:
-        date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
     _dump_item(
         CodeService().code(id_code, date_pub, with_articles),
         error='No such code: %s' % id_code
@@ -119,8 +121,6 @@ def code(id_code, date_pub, with_articles):
 @click.option('--date-pub',
               help=u"Publication date (ISO format), default to today")
 def code_section(id_code, id_section, date_pub):
-    if date_pub:
-        date_pub = date_pub.replace('-', '')  # 2018-02-01  => 20180201
     _dump_item(SectionService().articles(id_code, id_section, date_pub))
 
 

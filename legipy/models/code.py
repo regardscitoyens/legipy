@@ -37,6 +37,8 @@ class Section(LegipyModel):
 class Article(LegipyModel):
     def __init__(self,
                  title,
-                 history):
+                 history,
+                 id_article=None):
         self.title = title
         self.history = history
+        self.id_article = id_article
